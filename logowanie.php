@@ -18,20 +18,21 @@
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
       </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="rynek.php">Rynek</a>
+        <a class="nav-link active" href="rynek.php">Rynek</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="mojportfel.php">Mój portfel</a>
+        <a class="nav-link active" href="mojportfel.php">Mój portfel</a>
       </li>
       </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
+    <ul class="navbar-nav ml-auto">
       <li class="nav-item ">
-        <a class="nav-link" href="logowanie.php">Logowanie</a>
+        <a class="nav-link active" href="logowanie.php">Logowanie</a>
       </li>
     </ul>
   </div>

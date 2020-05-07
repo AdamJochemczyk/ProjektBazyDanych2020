@@ -1,7 +1,7 @@
-<?php 
-	session_start(); 
+<?php
+	session_start();
 
-	if (isset($_GET['logout'])) 
+	if (isset($_GET['logout']))
     {
 		session_destroy();
 		unset($_SESSION['email']);
@@ -28,31 +28,28 @@
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
       </a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="rynek.php">Rynek</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="mojportfel.php">Mój portfel</a>
       </li>
       </ul>
-  </div>
-  <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item mt-2">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active mt-2">
         <?php  if (isset($_SESSION['email'])) : ?>
 			Witaj <strong><?php echo $_SESSION['email']; ?></strong>
           </li>
-        <li class="nav-item ">
+        <li class="nav-item active">
 			<a class="nav-link" href="index.php?logout='1'">Wyloguj</a>
         </li>
           <?php endif ?>
-    </ul>
-  </div>
-        <div>
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item ">
+      <li class="nav-item active">
         <?php  if (!isset($_SESSION['email'])) : ?>
         <a class="nav-link" href="logowanie.php">Logowanie</a>
           <?php endif ?>
@@ -63,7 +60,7 @@
 
 <div>
   Strona główna
-    
+
 </div>
 </body>
 </html>
