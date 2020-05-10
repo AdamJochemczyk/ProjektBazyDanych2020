@@ -8,21 +8,20 @@ $conn = mysqli_connect(
     "mydb"
 
 );
-
-
-$sql = "SELECT * FROM rola";
-
-
-$result = $conn->query($sql);
 session_start();
-
-	if (!isset($_SESSION['email']))
-    {
-		$_SESSION['msg'] = "Musisz się zalogować!";
-		header('location: logowanie.php');
-	}
-
-
+if (!isset($_SESSION['email']))
+  {
+  $_SESSION['msg'] = "Musisz się zalogować!";
+  header('location: logowanie.php');
+}
+else {
+  $mail=$_SESSION['email'];
+  $sql = "SELECT inwestycje.nazwa, inwestycje.koszt_inwestycji FROM inwestycje, inwestycjeuzytkownik, uzytkownik
+  WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje AND
+   uzytkownik.idUzytkownik=inwestycjeuzytkownik.idUzytkownik AND uzytkownik.email='$mail';";
+  $result = $conn->query($sql);
+  $i=1;
+}
 ?>
 
 <!DOCTYPE html>
@@ -74,13 +73,60 @@ session_start();
   </div>
 </nav>
 
-<div>
-  Moj portfel<br>
-    Dostepne role [test mysql]<br>
-    <p>ID roli  Nazwa roli : <br><?php  while($row = $result->fetch_assoc()) {
-            echo $row['id_roli'] . " " . $row['nazwa_roli'] . "<br />" ."</p>";
-        }  ?>
-   </p>
+    <div class="col-lr-6 div-center" style="text-align: center; font-size: 4rem">
+    Twoje inwestycje
+  </div>
+  <div class="row" style="padding: 3%;">
+    <div class="col-lr-6" style="font-size: 1.5rem; margin: 0 5% 0 0;">
+      <label>W portfelu: </label>
+      <?php
+        $sqlpk="SELECT kwota FROM uzytkownik WHERE email='$mail';";
+        $sqlpkodp = $conn->query($sqlpk);
+        $posiadanakwota;
+        if($row = $sqlpkodp->fetch_assoc()) {
+        echo $row['kwota']."<br>";
+        $posiadanakwota=$row['kwota'];
+      }
+       ?>
+    </div>
+  <div class="col-lr-6">
+    <form method="post" action="mojportfel.php">
+      <div class="form-group">
+        <label>Zasil konto:</label>
+        <input type="text" class="form-control" name="kwotazasilenia" placeholder="Wprowadź kwotę"></br>
+        <button type="submit" class="btn btn-primary" name="zasil">Zasil</button>
+      </div>
+    </form>
+    <?php
+    $errors = array();
+      if (isset($_POST['zasil'])) {
+        $doladowanie=mysqli_real_escape_string($conn, $_POST['kwotazasilenia']);
+          if (empty($doladowanie)||($doladowanie==0)) { $doladowanie=0; }
+          if (count($errors) == 0) {
+      			$zasil = "UPDATE uzytkownik SET kwota = $posiadanakwota+$doladowanie WHERE  email='$mail';";
+      			$conn->query($zasil);
+            header("Refresh:0");
+          }
+        }
+     ?>
+  </div>
 </div>
+<div class="row" style="padding: 0 0 0 3%;">
+  <table class="table col-lr-6">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nazwa</th>
+      <th scope="col">Koszt inwestycji</th>
+    </tr>
+  </thead>
+  <tbody>
+<?php  while($row = $result->fetch_assoc()) {
+            echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td><td>" . $row['koszt_inwestycji'] ."</td></tr>";
+            $i++;
+        }  ?>
+      </tbody>
+   </table>
+ </div>
 </body>
 </html>
