@@ -6,7 +6,7 @@
 	$_SESSION['success'] = "";
 
 	//połączenie do bazy
-	$db = mysqli_connect('localhost', 'root', '', 'mydb');
+	$db = mysqli_connect('localhost', 'root', 'root', 'Projekt');
 
 	// REJESTROWANKO
 	if (isset($_POST['reg_user'])) {
@@ -52,13 +52,24 @@
 
 		if (count($errors) == 0) {
 			$query = "SELECT * FROM uzytkownik WHERE email='$email' AND haslo='$password'";
+			
+			$roleCheck = "SELECT nazwa_roli FROM rola, uzytkownik where uzytkownik.id_roli = rola.id_roli AND uzytkownik.email = '$email'";
+			$checkResult = mysqli_query($db,$roleCheck);
+			$row = mysqli_fetch_assoc($checkResult);
+
 			$results = mysqli_query($db, $query);
+			
 
 			if (mysqli_num_rows($results) == 1) {
                 echo("AAAAAAAAAA");
 				$_SESSION['email'] = $email;
 				$_SESSION['success'] = "Zalogowano";
-				header('location: index.php');
+				if($row['nazwa_roli'] == "admin"){
+					header('location: usrmgmnt.php');
+				}
+				else{
+					header('location: index.php');
+				}
 			}else {
 				array_push($errors, "Niepoprawne dane logowania!");
 			}
