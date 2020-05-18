@@ -23,20 +23,21 @@ $conn = mysqli_connect(
 <?php
 if(isset($_POST['updateBtn'])){
 
-$id = $_POST['editId'];
-$email = $_POST['emailId'];
-$haslo = $_POST['passwordId'];
-$imie = $_POST['nameId'];
-$nazwisko = $_POST['surnameId'];
-$wiek = $_POST['ageId'];
-$kwota = $_POST['initialPaymentId'];
+        $id = mysqli_real_escape_string($conn, $_POST['editId']);
+        $email = mysqli_real_escape_string($conn, $_POST['emailId']);
+		$haslo = mysqli_real_escape_string($conn, $_POST['passwordId']);
+		$imie = mysqli_real_escape_string($conn, $_POST['nameId']);
+        $nazwisko = mysqli_real_escape_string($conn, $_POST['surnameId']);
+        $wiek = mysqli_real_escape_string($conn, $_POST['ageId']);
+		$kwota = mysqli_real_escape_string($conn, $_POST['initialPaymentId']);
 
         if (empty($email)) { array_push($errors, "Email jest wymagany"); }
 		if (empty($haslo)) { array_push($errors, "Hasło jest wymagane"); }
 		if (empty($imie)) { array_push($errors, "Imie jest wymagane"); }
 		if (empty($nazwisko)) { array_push($errors, "Nazwisko jest wymagane"); }
-		if (empty($wiek)) { array_push($errors, "Wiek jest wymagany"); }
-        if (empty($kwota)||($kwota==0)) { $kwota=0; }
+        if (empty($wiek)) { array_push($errors, "Wiek jest wymagany"); }
+        if ($wiek<0) { array_push($errors, "Wiek nie moze być ujemny"); }
+        if (empty($kwota)||($kwota==0)||($kwota<0)) { $kwota=0; }
         
         if (count($errors) == 0) {
             $sql = "UPDATE uzytkownik SET email='$email', haslo='$haslo', Imie='$imie', Nazwisko='$nazwisko', wiek='$wiek', kwota='$kwota' where idUzytkownik='$id'";
@@ -66,5 +67,36 @@ if(isset($_POST['deleteBtn'])){
 else{
     header('Location: usrmgmnt.php');
 }
+?>
 
+<?php
+if(isset($_POST['deleteInwBtn'])){
+    $id = $_POST['deleteId'];
+
+    $sql = "DELETE FROM inwestycje WHERE idInwestycje = '$id'";
+    $result = $conn->query($sql);
+
+    if($result){
+        header('Location: inwmgmnt.php');
+    }
+}
+else{
+    header('Location: inwmgmnt.php');
+}
+?>
+
+<?php
+if(isset($_POST['updateInwBtn'])){
+    $id = $_POST['updateId'];
+
+    $sql = "DELETE FROM inwestycje WHERE idInwestycje = '$id'";
+    $result = $conn->query($sql);
+
+    if($result){
+        header('Location: inwmgmnt.php');
+    }
+}
+else{
+    header('Location: inwmgmnt.php');
+}
 ?>
