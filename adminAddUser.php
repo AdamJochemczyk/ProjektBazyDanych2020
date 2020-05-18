@@ -1,35 +1,11 @@
-<?php 
-	session_start(); 
-
-	if (isset($_GET['logout'])) 
-    {
-		session_destroy();
-		unset($_SESSION['email']);
-		header("location: index.php");
-    }
-
-$conn = mysqli_connect(
-
-    "localhost",
-    "root",
-    "root",
-    "Projekt"
-
-);
-
-
-$sql = "SELECT * FROM uzytkownik where id_roli = 2";
-
-$result = $conn->query($sql);
-    
-?>
+<?php include('server.php') ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Portal inwestycyjny </title>
+  <title>Rejestracja</title>
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -37,7 +13,7 @@ $result = $conn->query($sql);
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.php">
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
@@ -86,61 +62,46 @@ $result = $conn->query($sql);
     </ul>
   </div>
 </nav>
-
-<div class="container" >
-    <div class="row">
-    <div class="col"></div>
-    <div class="col">
     <center>
-    <div class="table-responsive">
-    <table class='table table-striped table-bordered table-hover'>
-    <tr>
-        <th>ID</th>
-        <th>email</th>
-        <th>hasło</th>
-        <th>Wiek</th>
-        <th>Kwota</th>
-        <th>Imie</th>
-        <th>Nazwisko</th>
-        <th>Usuń</th>
-        <th>Edytuj</th>
-    </tr>
-    <?php
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo "<tr><td>"
-            .$row["idUzytkownik"]."</td><td>"
-            .$row["email"]."</td><td>"
-            .$row["haslo"]."</td><td>"
-            .$row["wiek"]."</td><td>"
-            .$row["kwota"]."</td><td>"
-            .$row["Imie"]."</td><td>"
-            .$row["Nazwisko"]."</td>";
-            ?>
-            <td>
-            <form action="updateAndDelete.php" method="post">
-            <input type="hidden" name="deleteId" value="<?php echo $row['idUzytkownik']; ?>">
-            <button class='btn btn-danger' type="submit" name="deleteBtn">Usuń</button>
+        <div class="div-center col-sm-3 shadow p-3 mb-5 bg-white rounded mt-5">
+             <form method="post" action="adminAddUser.php">
+                 <?php include('errors.php'); ?>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Adres Email</label>
+                <input type="email" class="form-control" name="emailId" aria-describedby="emailHelp" placeholder="Wprowadź email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Hasło</label>
+                <input type="password" class="form-control" name="passwordId" placeholder="Wprowadź hasło">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Imię</label>
+                <input type="text" class="form-control" name="nameId" aria-describedby="emailHelp" placeholder="Wprowadź Imię">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Nazwisko</label>
+                <input type="text" class="form-control"  name="surnameId" aria-describedby="emailHelp" placeholder="Wprowadź Nazwisko">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Wiek</label>
+                <input type="text" class="form-control" name="ageId" aria-describedby="emailHelp" placeholder="Wprowadź Wiek">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Wpłata początkowa</label>
+                <input type="text" class="form-control" name="initialPaymentId" aria-describedby="emailHelp" placeholder="Wprowadź Kwotę">
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="roleId" value="admin">Administrator</label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="roleId" value="user">Uzytkownik podstawowy</label>
+              </div>
+              <button type="submit" class="btn btn-primary" name="admin_usr">Dodaj uzytkownika</button>
             </form>
-            </td>
-            <td>
-            <form action="usrmgmntEdit.php" method="post">
-            <input type="hidden" name="editId" value="<?php echo $row['idUzytkownik']; ?>">
-            <button class='btn btn-success' type="submit" name="editBtn">Edytuj</button>
-            </form>
-            </td></tr>
-            <?php
-        }
-      } else {
-        echo "0 results";
-      }
-    ?>
-    </table>
-    </div>
+            </div>
     </center>
-    </div>
-    <div class="col"></div>
-    </div>
-</div>
+
 </body>
 </html>

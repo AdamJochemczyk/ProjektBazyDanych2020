@@ -18,7 +18,7 @@ $conn = mysqli_connect(
 );
 
 
-$sql = "SELECT * FROM uzytkownik where id_roli = 2";
+$sql = "SELECT * FROM `inwestycje`, typinwestycji where inwestycje.id_typ = typinwestycji.idTypInwestycji";
 
 $result = $conn->query($sql);
     
@@ -42,7 +42,7 @@ $result = $conn->query($sql);
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
       </a>
-      <div class="collapse navbar-collapse" id="navbarNav">
+  <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
@@ -95,13 +95,13 @@ $result = $conn->query($sql);
     <div class="table-responsive">
     <table class='table table-striped table-bordered table-hover'>
     <tr>
-        <th>ID</th>
-        <th>email</th>
-        <th>hasło</th>
-        <th>Wiek</th>
-        <th>Kwota</th>
-        <th>Imie</th>
-        <th>Nazwisko</th>
+        <th>ID Inwestycji</th>
+        <th>Nazwa</th>
+        <th>Typ</th>
+        <th>Koszt</th>
+        <th>Stopa Zwrotu</th>
+        <th>Data rozpoczęcia</th>
+        <th>Data zakończenia</th>
         <th>Usuń</th>
         <th>Edytuj</th>
     </tr>
@@ -109,23 +109,23 @@ $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             echo "<tr><td>"
-            .$row["idUzytkownik"]."</td><td>"
-            .$row["email"]."</td><td>"
-            .$row["haslo"]."</td><td>"
-            .$row["wiek"]."</td><td>"
-            .$row["kwota"]."</td><td>"
-            .$row["Imie"]."</td><td>"
-            .$row["Nazwisko"]."</td>";
+            .$row["idInwestycje"]."</td><td>"
+            .$row["nazwa"]."</td><td>"
+            .$row["nazwaInw"]."</td><td>"
+            .$row["koszt_inwestycji"]."</td><td>"
+            .$row["PStopaZwrotu"]."</td><td>"
+            .$row["Data_zakonczenia"]."</td><td>"
+            .$row["Data_rozpoczecia"]."</td>";
             ?>
             <td>
             <form action="updateAndDelete.php" method="post">
-            <input type="hidden" name="deleteId" value="<?php echo $row['idUzytkownik']; ?>">
-            <button class='btn btn-danger' type="submit" name="deleteBtn">Usuń</button>
+            <input type="hidden" name="deleteId" value="<?php echo $row['idInwestycje']; ?>">
+            <button class='btn btn-danger' type="submit" name="deleteInwBtn">Usuń</button>
             </form>
             </td>
             <td>
             <form action="usrmgmntEdit.php" method="post">
-            <input type="hidden" name="editId" value="<?php echo $row['idUzytkownik']; ?>">
+            <input type="hidden" name="editId" value="<?php echo $row['idInwestycje']; ?>">
             <button class='btn btn-success' type="submit" name="editBtn">Edytuj</button>
             </form>
             </td></tr>

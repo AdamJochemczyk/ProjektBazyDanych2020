@@ -36,10 +36,25 @@ $conn = mysqli_connect(
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
       </a>
-  <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="usrmgmnt.php">Zarządzaj urzytkownikami</a>
+        <a class="nav-link" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="inwmgmnt.php">Zarządzaj inwestycjami</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="adminAddUser.php">Dodaj użytkownika</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="adminAddInw.php">Dodaj inwestycję</a>
       </li>
     </ul>
   </div>
