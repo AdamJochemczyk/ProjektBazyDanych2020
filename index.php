@@ -23,7 +23,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg mb-5">
     <a class="navbar-brand" href="index.php">
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
@@ -67,8 +67,13 @@
 			<h2 style="font-size: 1.5rem; line-height: 1.5;" class="pt-3">
 				Dołącz do naszych klientów i inwestuj - tanio i wygodnie
 			</h2>
-			<a href="rejestracja.php" class="btn btn-dark btn-lg mt-3">Zarejestruj się</a>
-			<a href="logowanie.php" class="btn btn-dark btn-lg mt-3">Zaloguj się</a></br>
+        <?php
+            if (!isset($_SESSION['email']))
+            {
+			echo '<a href="rejestracja.php" class="btn btn-dark btn-lg mt-3">Zarejestruj się</a>
+			<a href="logowanie.php" class="btn btn-dark btn-lg mt-3">Zaloguj się</a></br>';
+            }
+        ?>
 			<!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container mt-5">
   <div class="tradingview-widget-container__widget"></div>
@@ -128,7 +133,7 @@ echo $mid;
 */
 
  ?>
-<footer class="page-footer font-small blue pt-4" style="color: white; background-color: #3f3f44;">
+<footer class="page-footer font-small blue pt-4 mt-5" style="color: white; background-color: #3f3f44;">
   <div class="container-fluid text-center text-md-left">
     <div class="row">
       <div class="col-md-6 mt-md-0 mt-3">
