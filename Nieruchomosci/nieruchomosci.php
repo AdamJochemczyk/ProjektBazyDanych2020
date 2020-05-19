@@ -53,7 +53,7 @@
 
 		$Connection = new mysqli('localhost', 'root', '', 'mydb');
 		$Connection->set_charset("utf8");   
-        $Query = "SELECT * FROM inwestycje WHERE id_typ=2";
+        $Query = "SELECT * FROM inwestycje WHERE id_typ=2 AND Wykupione=0";
 		$Result = $Connection->query($Query);
 
 		echo "<table>";
@@ -64,7 +64,7 @@
 		{
 			while ($Row = $Result->fetch_array())
 			{
-				echo "<tr><form method='post' action='update.php'>
+				echo "<tr><form method='post' action='Zakup.php'>
 				
 				<td><input type='text' value='$Row[0]' name='Identyfikator'/></td>
 				<td><input type='text' value='$Row[1]' name='Nazwa Inwestycji'/></td>

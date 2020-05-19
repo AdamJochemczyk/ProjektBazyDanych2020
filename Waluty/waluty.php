@@ -52,8 +52,10 @@
        
 
 		$Connection = new mysqli('localhost', 'root', '', 'mydb');
+          
+          
 		$Connection->set_charset("utf8");   
-        $Query = "SELECT * FROM inwestycje WHERE id_typ=4";
+        $Query = "SELECT * FROM inwestycje WHERE id_typ=4 AND Wykupione=0";
 		$Result = $Connection->query($Query);
 
 		echo "<table>";
@@ -71,7 +73,7 @@
                 <td><input type='text' value='$Row[3]' name='Koszt Inwestycji'/></td>
                 
                 
-				<td><a href='Zakup.php?idInwestycje=$Row[0]'><input type='submit' value='Zakup'/></td>
+				<td><input type='submit' value='Zakup'/></td>
                 
 				
 				</form></tr>";

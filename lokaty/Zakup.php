@@ -1,4 +1,5 @@
 <?php
+$Identyfikator = $_POST["Identyfikator"];
 $idInwestycje = $_POST["idInwestycje"];
 $Wykupione = $_POST["Wykupione"];
 
@@ -9,7 +10,7 @@ $Database = "mydb";
 
 $Connection = new mysqli($Server, $Login, $Password, $Database);
 
-$Query = "UPDATE inwestycje SET  Wykupione=1 WHERE idInwestycje=$idInwestycje";
+$Query = "UPDATE inwestycje SET  Wykupione=1 WHERE idInwestycje=$Identyfikator";
 $Result = $Connection->query($Query);
 header("Location: lokaty.php");
 ?>
