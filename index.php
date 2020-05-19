@@ -39,6 +39,12 @@
       <li class="nav-item active">
         <a class="nav-link" href="mojportfel.php">Mój portfel</a>
       </li>
+        <?php
+        if(isset($_SESSION['admin']))
+        {
+            echo '<li class="nav-item active"><b><a class="nav-link" href="usrmgmnt.php">Panel administracyjny</a></b></li>';
+        }
+        ?>
       </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active mt-2">

@@ -5,8 +5,11 @@
 	$errors = array(); 
 	$_SESSION['success'] = "";
 
+    function checkemail($str) {
+         return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+   }
 	//połączenie do bazy
-	$db = mysqli_connect('localhost', 'root', 'root', 'Projekt');
+	$db = mysqli_connect('localhost', 'root', '', 'platforma_inwestycyjna');
 
 	// REJESTROWANKO
 	if (isset($_POST['reg_user'])) {
@@ -18,10 +21,14 @@
 		$kwota = mysqli_real_escape_string($db, $_POST['initialPaymentId']);
 
 		if (empty($email)) { array_push($errors, "Email jest wymagany"); }
+        if(!checkemail($email)) { array_push($errors, "Podany adres Email jest niepoprawny"); }
 		if (empty($password)) { array_push($errors, "Hasło jest wymagane"); }
+		if (strlen($password) < 6) { array_push($errors, "Podane hasło jest za krótkie!"); }
 		if (empty($imie)) { array_push($errors, "Imie jest wymagane"); }
 		if (empty($nazwisko)) { array_push($errors, "Nazwisko jest wymagane"); }
 		if (empty($wiek)) { array_push($errors, "Wiek jest wymagany"); }
+        if ($wiek<0) { array_push($errors, "Podany wiek jest niepoprawny!");}
+        if ($wiek<18) { array_push($errors, "Podany wiek nie przekracza 18 lat!");}
 		if (empty($kwota)||($kwota==0)) { $kwota=0; }
 
 
@@ -33,7 +40,7 @@
 
 			$_SESSION['email'] = $email;
 			$_SESSION['success'] = "You are now logged in";
-			header('location: index.php');
+			header('location: mojportfel.php');
 
 			
 
@@ -65,14 +72,14 @@
 			
 
 			if (mysqli_num_rows($results) == 1) {
-                echo("AAAAAAAAAA");
 				$_SESSION['email'] = $email;
 				$_SESSION['success'] = "Zalogowano";
 				if($row['nazwa_roli'] == "admin"){
 					header('location: usrmgmnt.php');
+                    $_SESSION['admin'] = true;
 				}
 				else{
-					header('location: index.php');
+					header('location: mojportfel.php');
 				}
 			}else {
 				array_push($errors, "Niepoprawne dane logowania!");
