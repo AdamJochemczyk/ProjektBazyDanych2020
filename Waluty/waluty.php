@@ -55,7 +55,7 @@
           
           
 		$Connection->set_charset("utf8");   
-        $Query = "SELECT * FROM inwestycje WHERE id_typ=4 AND Wykupione=0";
+        $Query = "SELECT * FROM inwestycje  WHERE id_typ=4 AND Wykupione=0";
 		$Result = $Connection->query($Query);
 
 		echo "<table>";

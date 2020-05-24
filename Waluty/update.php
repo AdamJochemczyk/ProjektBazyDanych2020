@@ -13,8 +13,10 @@ $Login = "root";
 $Password = "";
 $Database = "mydb";
 
+
+$mail=$_SESSION['email']
 $Connection = new mysqli($Server, $Login, $Password, $Database);
-$QUERYID="SELECT idUzytkownika FROM uzytkownik WHERE email="$_SESSION['email'];
+
 $Query = "UPDATE inwestycjeuzytkownika SET  idUzytkownik = '$idUzytkownik', idInwestycje = $idInwestycje,DATA_R='$DATA_R',DATA_Z='$DATA_Z' WHERE idUzytkownika = ";
 $Result = $Connection->query($Query);
 
