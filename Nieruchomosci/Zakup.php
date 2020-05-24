@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['email']))
+  {
+  $_SESSION['msg'] = "Musisz się zalogować!";
+  header('location: logowanie.php');
+}
+else{
 $Identyfikator = $_POST["Identyfikator"];
 $idInwestycje = $_POST["idInwestycje"];
 $Wykupione = $_POST["Wykupione"];
@@ -21,7 +29,7 @@ $Query = "UPDATE inwestycje SET  Wykupione=1 WHERE idInwestycje=$Identyfikator";
 $Query2 = "INSERT INTO `inwestycjeuzytkownik` (`ID_INW`, `idUzytkownik`, `idInwestycje`, `DATA_R`, `DATA_Z`) VALUES (NULL, '5', '$Identyfikator', current_timestamp(), NULL);";
 $Result = $Connection->query($Query);
 $Result = $Connection->query($Query2);
-
+}
 
 header("Location: nieruchomosci.php");
 ?>
