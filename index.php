@@ -42,7 +42,28 @@
         <?php
         if(isset($_SESSION['admin']))
         {
-            echo '<li class="nav-item active"><b><a class="nav-link" href="usrmgmnt.php">Panel administracyjny</a></b></li>';
+            echo '<div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Użytkownicy
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="adminAddUser.php">Dodaj użytkownika</a>
+                  <a class="dropdown-item" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Inwestycje
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="adminAddInw.php">Dodaj Inwestycje</a>
+                  <a class="dropdown-item" href="inwmgmnt.php">Zarządzaj Inwestycjami</a>
+                </div>
+              </li>
+            </ul>
+          </div>';
         }
         ?>
       </ul>

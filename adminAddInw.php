@@ -18,25 +18,25 @@
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
       </a>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Użytkownicy
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddUser.php">Dodaj użytkownika</a>
+          <a class="dropdown-item" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+        </div>
       </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="inwmgmnt.php">Zarządzaj inwestycjami</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddUser.php">Dodaj użytkownika</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddInw.php">Dodaj inwestycję</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Inwestycje
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddInw.php">Dodaj Inwestycje</a>
+          <a class="dropdown-item" href="inwmgmnt.php">Zarządzaj Inwestycjami</a>
+        </div>
       </li>
     </ul>
   </div>
@@ -72,22 +72,18 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Typ inwestycji</label>
                 <select class="form-control" name="typInwId">
-                <option value="l">Lokaty</option>
-                <option value="n">Nieruchomości</option>
-                <option value="s">Surowce</option>
-                <option value="w">Waluty</option>
-                <option value="o">Obligacje</option>
-                <option value="a">Akcje</option>
+                <option value='l'>Lokaty</option>
+                <option value='n'>Nieruchomości</option>
+                <option value='s'>Surowce</option>
+                <option value='w'>Waluty</option>
+                <option value='o'>Obligacje</option>
+                <option value='a'>Akcje</option>
                 </select>
             </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Koszt inwestycji</label>
                 <input type="text" class="form-control" name="kosztId" aria-describedby="emailHelp" placeholder="Wprowadź koszt">
               </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Stopa zwrotu</label>
-                <input type="text" class="form-control"  name="stopaId" aria-describedby="emailHelp" placeholder="Wprowadź stopę zwrotu">
-              </div>  
               <button type="submit" class="btn btn-primary" name="admin_inw">Dodaj inwestycje</button>
             </form>
             </div>

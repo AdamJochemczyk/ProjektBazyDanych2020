@@ -9,7 +9,7 @@
          return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
    }
 	//połączenie do bazy
-	$db = mysqli_connect('localhost', 'root', '', 'platforma_inwestycyjna');
+	$db = mysqli_connect('localhost', 'root', 'root', 'mydb');
 
 	// REJESTROWANKO
 	if (isset($_POST['reg_user'])) {
@@ -152,10 +152,9 @@
 			default:  $typ="1"; break;
 		}
 		//Problem z id, brak autoinkrementacji
-		//Dodać datetime picker
 		if(count($errors)==0){
 		$query = "INSERT INTO inwestycje (idInwestycje, nazwa, id_typ, koszt_inwestycji, PStopaZwrotu, Data_zakonczenia, Data_rozpoczecia)
-				  VALUES ('3', '$nazwa', '$typ', '$koszt', '$stopa', NULL, NULL)";
+				  VALUES ('11','$nazwa', '$typ', '$koszt', '$stopa', NULL, NULL)";
 
 		mysqli_query($db,$query);
 		header('location: inwmgmnt.php');

@@ -1,6 +1,10 @@
 <?php 
 	session_start(); 
+  if(!isset($_SESSION['admin'])){
+    $_SESSION['msg'] = "Brak uprawnień!";
+    header('location: index.php');
 
+  }
 	if (isset($_GET['logout'])) 
     {
 		session_destroy();
@@ -13,7 +17,7 @@ $conn = mysqli_connect(
     "localhost",
     "root",
     "root",
-    "Projekt"
+    "mydb"
 
 );  
 ?>
@@ -36,25 +40,25 @@ $conn = mysqli_connect(
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
       </a>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Użytkownicy
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddUser.php">Dodaj użytkownika</a>
+          <a class="dropdown-item" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+        </div>
       </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="inwmgmnt.php">Zarządzaj inwestycjami</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddUser.php">Dodaj użytkownika</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddInw.php">Dodaj inwestycję</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Inwestycje
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddInw.php">Dodaj Inwestycje</a>
+          <a class="dropdown-item" href="inwmgmnt.php">Zarządzaj Inwestycjami</a>
+        </div>
       </li>
     </ul>
   </div>
@@ -80,12 +84,21 @@ $conn = mysqli_connect(
   </div>
 </nav>
     <center>
+    <?php
+          if(isset($_POST['editBtn'])){
+            $id = $_POST['editId'];
+            $sql = "SELECT * FROM inwestycje WHERE idInwestycje='$id' ";
+            $result = $conn->query($sql);
+
+            while($row = $result->fetch_assoc()){
+              ?>
         <div class="div-center col-sm-3 shadow p-3 mb-5 bg-white rounded mt-5">
-             <form method="post" action="adminAddUser.php">
+             <form method="post" action="updateAndDelete.php">
                  <?php include('errors.php'); ?>
+                 <input type="hidden" name="editId" value="<?php echo $row['idInwestycje']; ?>">
               <div class="form-group">
                 <label for="exampleInputEmail1">Nazwa inwestycji</label>
-                <input type="email" class="form-control" name="inwId" aria-describedby="emailHelp" placeholder="Wprowadź nazwę">
+                <input type="text" class="form-control" name="inwId" aria-describedby="emailHelp" placeholder="Wprowadź nazwę" value="<?php echo $row['nazwa']?>">
               </div>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Typ inwestycji</label>
@@ -100,23 +113,15 @@ $conn = mysqli_connect(
             </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Koszt inwestycji</label>
-                <input type="text" class="form-control" name="kosztId" aria-describedby="emailHelp" placeholder="Wprowadź koszt">
+                <input type="text" class="form-control" name="kosztId" aria-describedby="emailHelp" placeholder="Wprowadź koszt" value="<?php echo $row['koszt_inwestycji']?>">
               </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Stopa zwrotu</label>
-                <input type="text" class="form-control"  name="stopaId" aria-describedby="emailHelp" placeholder="Wprowadź stopę zwrotu">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Wiek</label>
-                <input type="text" class="form-control" name="ageId" aria-describedby="emailHelp" placeholder="Wprowadź Wiek">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Wpłata początkowa</label>
-                <input type="text" class="form-control" name="initialPaymentId" aria-describedby="emailHelp" placeholder="Wprowadź Kwotę">
-              </div>
-              <button type="submit" class="btn btn-primary" name="admin_usr">Dodaj inwestycje</button>
+              <button type="submit" class="btn btn-primary" name="updateInwBtn">Zapisz inwestycje</button>
             </form>
             </div>
+            <?php
+            }
+          }
+?>
     </center>
 
 </body>

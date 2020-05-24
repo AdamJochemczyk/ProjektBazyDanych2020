@@ -1,6 +1,10 @@
 <?php 
 	session_start(); 
+    if(!isset($_SESSION['admin'])){
+        $_SESSION['msg'] = "Brak uprawnień!";
+        header('location: index.php');
 
+      }
 	if (isset($_GET['logout'])) 
     {
 		session_destroy();
@@ -16,7 +20,7 @@ $conn = mysqli_connect(
     "localhost",
     "root",
     "root",
-    "Projekt"
+    "mydb"
 
 );  
 ?>
@@ -87,16 +91,37 @@ else{
 
 <?php
 if(isset($_POST['updateInwBtn'])){
-    $id = $_POST['updateId'];
+        $id = mysqli_real_escape_string($conn, $_POST['editId']);
+        $nazwa = mysqli_real_escape_string($conn, $_POST['inwId']);
+        $typSwitch = mysqli_real_escape_string($conn, $_POST['typInwId']);
+        $typ;
+        $koszt = mysqli_real_escape_string($conn, $_POST['kosztId']);
+        
+        switch ($typSwitch) {
+			case 'Lokaty': $typ="1"; break;				
+			case 'n': $typ="2"; break;
+			case 's': $typ="3"; break;
+			case 'w': $typ="4"; break;
+			case 'o': $typ="5"; break;
+			case 'a': $typ="6"; break;
+			default:  $typ=1; break;
+        }
+        
+        if (empty($nazwa)) { array_push($errors, "Nazwa jest wymagana"); }
+        if (empty($typ)) { array_push($errors, "Błędny typ"); }
+        if (empty($koszt)||($koszt==0)||($koszt<0)) { $kwota=0; }
 
-    $sql = "DELETE FROM inwestycje WHERE idInwestycje = '$id'";
+        if(count($errors) == 0){
+    $sql = "UPDATE inwestycje SET nazwa='$nazwa', id_typ='$typ', koszt_inwestycji='$koszt' where idInwestycje ='$id'";
     $result = $conn->query($sql);
 
     if($result){
         header('Location: inwmgmnt.php');
     }
 }
+
 else{
     header('Location: inwmgmnt.php');
+}
 }
 ?>

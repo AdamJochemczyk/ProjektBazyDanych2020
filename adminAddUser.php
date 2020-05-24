@@ -1,4 +1,4 @@
-<?php include('server.php') ?>
+<?php include('server.php')?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,24 +19,24 @@
         nwestycje
       </a>
       <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Użytkownicy
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddUser.php">Dodaj użytkownika</a>
+          <a class="dropdown-item" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+        </div>
       </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="inwmgmnt.php">Zarządzaj inwestycjami</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddUser.php">Dodaj użytkownika</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddInw.php">Dodaj inwestycję</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Inwestycje
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddInw.php">Dodaj Inwestycje</a>
+          <a class="dropdown-item" href="inwmgmnt.php">Zarządzaj Inwestycjami</a>
+        </div>
       </li>
     </ul>
   </div>

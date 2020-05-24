@@ -1,5 +1,11 @@
 <?php 
-	session_start(); 
+  session_start(); 
+  
+  if(!isset($_SESSION['admin'])){
+    $_SESSION['msg'] = "Brak uprawnień!";
+    header('location: index.php');
+
+  }
 
 	if (isset($_GET['logout'])) 
     {
@@ -13,7 +19,7 @@ $conn = mysqli_connect(
     "localhost",
     "root",
     "root",
-    "Projekt"
+    "mydb"
 
 );
 
@@ -42,25 +48,25 @@ $result = $conn->query($sql);
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
       </a>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Użytkownicy
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddUser.php">Dodaj użytkownika</a>
+          <a class="dropdown-item" href="usrmgmnt.php">Zarządzaj użytkownikami</a>
+        </div>
       </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="inwmgmnt.php">Zarządzaj inwestycjami</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddUser.php">Dodaj użytkownika</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="adminAddInw.php">Dodaj inwestycję</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Inwestycje
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="adminAddInw.php">Dodaj Inwestycje</a>
+          <a class="dropdown-item" href="inwmgmnt.php">Zarządzaj Inwestycjami</a>
+        </div>
       </li>
     </ul>
   </div>
@@ -99,9 +105,6 @@ $result = $conn->query($sql);
         <th>Nazwa</th>
         <th>Typ</th>
         <th>Koszt</th>
-        <th>Stopa Zwrotu</th>
-        <th>Data rozpoczęcia</th>
-        <th>Data zakończenia</th>
         <th>Usuń</th>
         <th>Edytuj</th>
     </tr>
@@ -111,11 +114,8 @@ $result = $conn->query($sql);
             echo "<tr><td>"
             .$row["idInwestycje"]."</td><td>"
             .$row["nazwa"]."</td><td>"
-            .$row["nazwaInw"]."</td><td>"
-            .$row["koszt_inwestycji"]."</td><td>"
-            .$row["PStopaZwrotu"]."</td><td>"
-            .$row["Data_zakonczenia"]."</td><td>"
-            .$row["Data_rozpoczecia"]."</td>";
+            .$row["id_typ"]."</td><td>"
+            .$row["koszt_inwestycji"]."</td>";
             ?>
             <td>
             <form action="updateAndDelete.php" method="post">
@@ -124,7 +124,7 @@ $result = $conn->query($sql);
             </form>
             </td>
             <td>
-            <form action="usrmgmntEdit.php" method="post">
+            <form action="inwEdit.php" method="post">
             <input type="hidden" name="editId" value="<?php echo $row['idInwestycje']; ?>">
             <button class='btn btn-success' type="submit" name="editBtn">Edytuj</button>
             </form>
