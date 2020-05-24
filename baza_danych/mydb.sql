@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 24 Maj 2020, 21:49
+-- Czas generowania: 24 Maj 2020, 22:11
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -58,7 +58,7 @@ INSERT INTO `inwestycje` (`idInwestycje`, `nazwa`, `id_typ`, `koszt_inwestycji`,
 (15, 'Konto Oszczędnościowe 4%', 1, '100000.00', 0),
 (16, 'Elastyczne konto oszczędnościowe 3.5%', 1, '150000.00', 0),
 (17, 'Lokata roczna', 1, '75000.00', 0),
-(18, 'Lokata na 10 lat [5% w skali roku]', 1, '250000.00', 0),
+(18, 'Lokata na 10 lat [5% w skali roku]', 1, '250000.00', 1),
 (19, 'Osiedle domków jednorodzinnych Wrocław', 2, '5000000.00', 0),
 (20, 'Dom na półwyspie Suwałki', 2, '1850000.00', 0),
 (21, 'Hotel Baltic Wave Kołobrzeg', 2, '7500000.00', 0),
@@ -87,7 +87,7 @@ INSERT INTO `inwestycje` (`idInwestycje`, `nazwa`, `id_typ`, `koszt_inwestycji`,
 (44, 'Korona islandzka', 4, '300500.00', 0),
 (45, 'Dolar kanadyjski', 4, '250000.00', 0),
 (46, 'Rubel rosyjski', 4, '3500000.00', 0),
-(47, 'Frank szwajcarski', 4, '654000.00', 0),
+(47, 'Frank szwajcarski', 4, '654000.00', 1),
 (48, 'Lira turecka', 4, '956000.00', 1),
 (49, 'Obligacje 3-miesięczne 0.5%', 5, '100000.00', 0),
 (50, 'Obligacje 2-letnie 1%', 5, '250000.00', 0),
@@ -115,6 +115,29 @@ CREATE TABLE `inwestycjeuzytkownik` (
   `DATA_R` timestamp NOT NULL DEFAULT current_timestamp(),
   `DATA_Z` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Zrzut danych tabeli `inwestycjeuzytkownik`
+--
+
+INSERT INTO `inwestycjeuzytkownik` (`ID_INW`, `idUzytkownik`, `idInwestycje`, `DATA_R`, `DATA_Z`) VALUES
+(3, 4, 56, '2020-05-24 19:50:14', NULL),
+(8, 3, 3, '2020-05-24 19:53:48', NULL),
+(9, 3, 60, '2020-05-24 19:54:04', NULL),
+(12, 5, 40, '2020-05-24 19:56:04', NULL),
+(13, 5, 0, '2020-05-24 19:56:43', NULL),
+(14, 5, 0, '2020-05-24 19:57:13', NULL),
+(15, 5, 0, '2020-05-24 19:57:59', NULL),
+(16, 5, 0, '2020-05-24 19:58:38', NULL),
+(17, 5, 0, '2020-05-24 19:59:56', NULL),
+(18, 5, 0, '2020-05-24 20:00:42', NULL),
+(19, 5, 0, '2020-05-24 20:01:35', NULL),
+(20, 5, 60, '2020-05-24 20:02:33', NULL),
+(21, 5, 60, '2020-05-24 20:02:39', NULL),
+(22, 5, 42, '2020-05-24 20:03:12', NULL),
+(23, 5, 47, '2020-05-24 20:03:58', NULL),
+(24, 5, 47, '2020-05-24 20:04:42', NULL),
+(25, 5, 18, '2020-05-24 20:11:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -232,7 +255,7 @@ ALTER TABLE `uzytkownik`
 -- AUTO_INCREMENT dla tabeli `inwestycjeuzytkownik`
 --
 ALTER TABLE `inwestycjeuzytkownik`
-  MODIFY `ID_INW` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_INW` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT dla tabeli `uzytkownik`
