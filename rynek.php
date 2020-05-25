@@ -70,7 +70,7 @@
         </div>
         <div class="card-body">
          Utwórz lokatę w banku na korzystny procent.
-            <button type="button" class="btn btn-lg btn-block btn-primary">Zainwestuj</button>
+<a class="btn  btn-block btn-primary btn-lg active" role="button" aria-pressed="true" href="lokaty/lokaty.php">Zainwestuj</a>
         </div>
       </div>
       <div class="card mb-4 shadow-sm">
@@ -79,7 +79,7 @@
         </div>
         <div class="card-body">
           Zainwestuj środki w silny rynek nieruchomości: mieszkania, domy, działki.
-            <button type="button" class="btn btn-lg btn-block btn-primary">Zainwestuj</button>
+            <a class="btn  btn-block btn-primary btn-lg active" role="button" aria-pressed="true" href="nieruchomosci/nieruchomosci.php">Zainwestuj</a>
         </div>
       </div>
       <div class="card mb-4 shadow-sm">
@@ -88,7 +88,7 @@
         </div>
         <div class="card-body">
           Zakup jednostki najpopularnieszych surowców, takich jak złoto, srebro i ropa.
-            <button type="button" class="btn btn-lg btn-block btn-primary">Zainwestuj</button>
+            <a class="btn  btn-block btn-primary btn-lg active" role="button" aria-pressed="true" href="Surowce/surowce.php">Zainwestuj</a>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
         </div>
         <div class="card-body">
           Zainwestuj w najsilniejsze waluty dostępne na rynku, jak dolar amerykański, frank szwajcarski i euro.
-            <button type="button" class="btn btn-lg btn-block btn-primary">Zainwestuj</button>
+            <a class="btn  btn-block btn-primary btn-lg active" role="button" aria-pressed="true" href="Waluty/waluty.php">Zainwestuj</a>
         </div>
       </div>
       <div class="card mb-4 shadow-sm">
@@ -113,7 +113,7 @@
         </div>
         <div class="card-body">
           Pożycz państwu pieniądze na dobry procent. Dostępne obligacje: 3-miesięczne, 1-roczne, 2-roczne i 5-letnie.
-            <button type="button" class="btn btn-lg btn-block btn-primary">Zainwestuj</button>
+            <a class="btn  btn-block btn-primary btn-lg active" role="button" aria-pressed="true" href="Obligacje/obligacje.php">Zainwestuj</a>
         </div>
       </div>
       <div class="card mb-4 shadow-sm">
@@ -122,7 +122,7 @@
         </div>
         <div class="card-body">
           Kup udziały w najpopularniejszych spółkach dostępnych na WIG, S&P500, NASDAQ, DAX.
-            <button type="button" class="btn btn-lg btn-block btn-primary">Zainwestuj</button>
+            <a class="btn  btn-block btn-primary btn-lg active" role="button" aria-pressed="true" href="Akcje/akcje.php">Zainwestuj</a>
         </div>
       </div>
     </div>
