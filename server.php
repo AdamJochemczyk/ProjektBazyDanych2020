@@ -2,6 +2,7 @@
 	session_start();
 
 	$email    = "";
+	$idUzytkownik    = "";
 	$errors = array(); 
 	$_SESSION['success'] = "";
 
@@ -9,7 +10,7 @@
          return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
    }
 	//połączenie do bazy
-	$db = mysqli_connect('localhost', 'root', 'root', 'mydb');
+	$db = mysqli_connect('localhost', 'root', '', 'mydb');
 
 	// REJESTROWANKO
 	if (isset($_POST['reg_user'])) {
@@ -50,38 +51,55 @@
 	}
 
 	//LOGOWANKO
-	if (isset($_POST['log_user'])) {
+	if (isset($_POST['log_user']))
+    {
 		$email = mysqli_real_escape_string($db, $_POST['emailId']);
 		$password = mysqli_real_escape_string($db, $_POST['passwordId']);
 
-		if (empty($email)) {
+		if (empty($email)) 
+        {
 			array_push($errors, "Email jest wymagany");
 		}
-		if (empty($password)) {
+        
+		if (empty($password)) 
+        {
 			array_push($errors, "Hasło jest wymagane");
 		}
-
-		if (count($errors) == 0) {
+        
+		if (count($errors) == 0) 
+        {
 			$query = "SELECT * FROM uzytkownik WHERE email='$email' AND haslo='$password'";
-			
+			$results = mysqli_query($db, $query);
+            
 			$roleCheck = "SELECT nazwa_roli FROM rola, uzytkownik where uzytkownik.id_roli = rola.id_roli AND uzytkownik.email = '$email'";
 			$checkResult = mysqli_query($db,$roleCheck);
 			$row = mysqli_fetch_assoc($checkResult);
 
-			$results = mysqli_query($db, $query);
 			
-
-			if (mysqli_num_rows($results) == 1) {
+			
+            $pobranieIDkwerenda = "SELECT idUzytkownik FROM uzytkownik WHERE email='$email'";
+            $wyslaniekwerendy = mysqli_query($db,$pobranieIDkwerenda);
+            $pobierzID = mysqli_fetch_assoc($wyslaniekwerendy);
+            
+			if (mysqli_num_rows($results) == 1) 
+            {
+               $idUzytkownik = $pobierzID['idUzytkownik'];
+                   
+                $_SESSION['idUzytkownik']=$idUzytkownik;
 				$_SESSION['email'] = $email;
 				$_SESSION['success'] = "Zalogowano";
-				if($row['nazwa_roli'] == "admin"){
+				if($row['nazwa_roli'] == "admin")
+                {
 					header('location: usrmgmnt.php');
                     $_SESSION['admin'] = true;
 				}
-				else{
+				else
+                {
 					header('location: mojportfel.php');
 				}
-			}else {
+			}
+            else 
+            {
 				array_push($errors, "Niepoprawne dane logowania!");
 			}
 		}

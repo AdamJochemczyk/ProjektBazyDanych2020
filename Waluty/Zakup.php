@@ -16,7 +16,7 @@ $Wykupione = $_POST["Wykupione"];
 
 $ID_INW = $_POST["ID_INW"];
 $idInwestycje = $_POST["idInwestycje"];
-$idUzytkownik = $_POST["idUzytkownik"];
+
 $DATA_R = $_POST["DATA_R"];
 $DATA_Z = $_POST["DATA_Z"];
 
