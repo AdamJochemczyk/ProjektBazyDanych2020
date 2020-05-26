@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 25 Maj 2020, 11:21
+-- Czas generowania: 26 Maj 2020, 10:28
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -46,25 +46,25 @@ INSERT INTO `inwestycje` (`idInwestycje`, `nazwa`, `id_typ`, `koszt_inwestycji`,
 (3, '\0Super lokata2.0', 1, '20000.00', 0),
 (4, 'Złoto', 3, '500000.00', 0),
 (5, '\0Platyna', 3, '670000.00', 0),
-(6, 'Dolar Amerykański', 4, '250000.00', 1),
-(7, 'Funt Brytyjski', 4, '160000.00', 1),
-(8, '\0Obligacja wymarzony start', 5, '80000.00', 1),
+(6, 'Dolar Amerykański', 4, '250000.00', 0),
+(7, 'Funt Brytyjski', 4, '160000.00', 0),
+(8, '\0Obligacja wymarzony start', 5, '80000.00', 0),
 (10, 'Akcje CDRED', 6, '9500000.00', 0),
 (11, 'Akcje ING', 6, '50000.00', 0),
-(12, 'Konto Oszczędnościowe 2.5%', 1, '10000.00', 1),
+(12, 'Konto Oszczędnościowe 2.5%', 1, '10000.00', 0),
 (13, 'Lokata Mobilna 2.0%', 1, '25000.00', 1),
-(14, 'Lokata dla nowych klientów 3.0%', 1, '50000.00', 1),
-(15, 'Konto Oszczędnościowe 4%', 1, '100000.00', 1),
-(16, 'Elastyczne konto oszczędnościowe 3.5%', 1, '150000.00', 1),
-(17, 'Lokata roczna', 1, '75000.00', 1),
-(18, 'Lokata na 10 lat [5% w skali roku]', 1, '250000.00', 1),
+(14, 'Lokata dla nowych klientów 3.0%', 1, '50000.00', 0),
+(15, 'Konto Oszczędnościowe 4%', 1, '100000.00', 0),
+(16, 'Elastyczne konto oszczędnościowe 3.5%', 1, '150000.00', 0),
+(17, 'Lokata roczna', 1, '75000.00', 0),
+(18, 'Lokata na 10 lat [5% w skali roku]', 1, '250000.00', 0),
 (19, 'Osiedle domków jednorodzinnych Wrocław', 2, '5000000.00', 0),
 (20, 'Dom na półwyspie Suwałki', 2, '1850000.00', 0),
 (21, 'Hotel Baltic Wave Kołobrzeg', 2, '7500000.00', 0),
 (22, 'Nowe domy w stanie developerskim Katowice', 2, '2000000.00', 0),
 (23, 'Wilanowska Crestent Warszawa', 2, '4500000.00', 0),
 (24, 'Karpatia Karpacz ośrodek wypoczynkowy', 2, '6500000.00', 0),
-(25, 'Wisła apartamenty z basenem', 2, '10000000.00', 1),
+(25, 'Wisła apartamenty z basenem', 2, '10000000.00', 0),
 (26, 'Działki usługowe przy DK86 w Będzinie', 2, '2500000.00', 1),
 (27, 'Stone Hill kurort narciarski', 2, '15000000.00', 0),
 (28, 'Synergy Park Gliwice', 2, '1250000.00', 1),
@@ -143,7 +143,11 @@ INSERT INTO `inwestycjeuzytkownik` (`ID_INW`, `idUzytkownik`, `idInwestycje`, `D
 (53, 6, 42, '2020-05-25 08:40:49', NULL),
 (55, 6, 40, '2020-05-25 09:07:39', NULL),
 (56, 6, 25, '2020-05-25 09:12:55', NULL),
-(57, 3, 59, '2020-05-25 09:13:41', NULL);
+(57, 3, 59, '2020-05-25 09:13:41', NULL),
+(58, 3, 23, '2020-05-25 09:33:03', NULL),
+(59, 11, 3, '2020-05-25 17:52:00', NULL),
+(60, 10, 0, '2020-05-26 07:50:15', NULL),
+(61, 3, 13, '2020-05-26 08:12:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -172,14 +176,14 @@ INSERT INTO `rola` (`nazwa_roli`, `id_roli`) VALUES
 
 CREATE TABLE `typinwestycji` (
   `idTypInwestycji` int(11) NOT NULL,
-  `nazwa` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `nazwaInw` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Zrzut danych tabeli `typinwestycji`
 --
 
-INSERT INTO `typinwestycji` (`idTypInwestycji`, `nazwa`) VALUES
+INSERT INTO `typinwestycji` (`idTypInwestycji`, `nazwaInw`) VALUES
 (1, 'lokata'),
 (2, 'nieruchomosc'),
 (3, 'surowce'),
@@ -209,11 +213,14 @@ CREATE TABLE `uzytkownik` (
 --
 
 INSERT INTO `uzytkownik` (`idUzytkownik`, `email`, `haslo`, `id_roli`, `wiek`, `kwota`, `Imie`, `Nazwisko`) VALUES
-(3, 'test@test.pl', 'asdfg123', 2, 21, 300010000.00, 'Test', 'Tescikowy'),
+(3, 'test@test.pl', 'c9dcf2529a5f4bf66234540fbe60b74e', 2, 21, 300010000.00, 'Test', 'Tescikowy'),
 (4, 'rambus2013@aaa.com', 'aasda', 2, 21, 0.00, 'Daw', 'Kan'),
 (5, 'asdf@onet.pl', 'zaq12wsx', 2, 23, 22.00, 'TSES1', 'TSES12'),
 (6, 'tututu@gmail.com', 'Dzekula21', 2, 21, 1000000000000000000.00, 'sebix', 'Szczypek'),
-(10, 'admin@admin', 'admin', 1, 33, 1000000.00, 'tututu', 'tututututu');
+(10, 'admin@admin', '4e7e7491b18261e361fda2a64bab613a', 1, 33, 1000000.00, 'tututu', 'tututututu'),
+(11, 'puli@puli.pl', '65fb784a1862c1e0c5f21170ef6b7181', 2, 18, 230000.00, 'Paulina', 'Ogorzelska'),
+(12, 'aaa@aaa.pl', '47bce5c74f589f4867dbd57e9ca9f808', 2, 22, 10000.00, 'Jurek', 'Ogórek'),
+(13, 'admin1@admin1.pl', '21232f297a57a5a743894a0e4a801fc3', 1, 22, 10000.00, 'Jurek', 'Ogórek');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -261,13 +268,13 @@ ALTER TABLE `uzytkownik`
 -- AUTO_INCREMENT dla tabeli `inwestycjeuzytkownik`
 --
 ALTER TABLE `inwestycjeuzytkownik`
-  MODIFY `ID_INW` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `ID_INW` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT dla tabeli `uzytkownik`
 --
 ALTER TABLE `uzytkownik`
-  MODIFY `idUzytkownik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idUzytkownik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Ograniczenia dla zrzutów tabel
