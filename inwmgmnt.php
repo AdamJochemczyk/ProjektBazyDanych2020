@@ -1,13 +1,13 @@
-<?php 
-  session_start(); 
-  
+<?php
+  session_start();
+
   if(!isset($_SESSION['admin'])){
     $_SESSION['msg'] = "Brak uprawnień!";
     header('location: index.php');
 
   }
 
-	if (isset($_GET['logout'])) 
+	if (isset($_GET['logout']))
     {
 		session_destroy();
 		unset($_SESSION['email']);
@@ -18,7 +18,7 @@ $conn = mysqli_connect(
 
     "localhost",
     "root",
-    "root",
+    "",
     "mydb"
 
 );
@@ -27,7 +27,7 @@ $conn = mysqli_connect(
 $sql = "SELECT * FROM `inwestycje`, typinwestycji where inwestycje.id_typ = typinwestycji.idTypInwestycji";
 
 $result = $conn->query($sql);
-    
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -114,7 +114,7 @@ $result = $conn->query($sql);
             echo "<tr><td>"
             .$row["idInwestycje"]."</td><td>"
             .$row["nazwa"]."</td><td>"
-            .$row["id_typ"]."</td><td>"
+            .$row["nazwaInw"]."</td><td>"
             .$row["koszt_inwestycji"]."</td>";
             ?>
             <td>

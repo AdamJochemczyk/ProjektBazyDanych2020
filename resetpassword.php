@@ -1,4 +1,41 @@
-<?php include('server.php') ?>
+<?php
+include('server.php');
+if (isset($_POST['reset_password']))
+{
+		$email = mysqli_real_escape_string($db, $_POST['emailId']);
+		if (empty($email))
+        {
+			array_push($errors, "Email jest wymagany");
+		}
+
+		if (count($errors) == 0)
+        {
+			$query = "SELECT * FROM uzytkownik WHERE email='$email';";
+			$results = mysqli_query($db, $query);
+
+			if (mysqli_num_rows($results) == 1)
+            {
+                $new_password = rand(999,99999);
+                $new_password_hash = md5($new_password);
+
+                $query = "UPDATE uzytkownik SET haslo='$new_password_hash' WHERE email='$email';";
+			    $go_update = mysqli_query($db, $query);
+
+               if($go_update)
+               {
+                   $new_password = "Twoje hasło : "+ (string)$new_password;
+                   //$comunicate = "Twoje nowe hasło to : "+$new_password+". Możesz się teraz zalogować z nowym hasłem!";
+                  // array_push($errors, $new_password);
+                echo $new_password;
+               }
+			}
+            else
+            {
+				array_push($errors, "Nie istnieje konto z podanym adresem e-mail!");
+			}
+		}
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,20 +48,6 @@
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script>
-    function showPassword()
-        {
-          var x = document.getElementById("passwordId");
-          if (x.type === "password")
-          {
-            x.type = "text";
-          }
-          else
-          {
-            x.type = "password";
-          }
-        }
-    </script>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,24 +76,16 @@
 </nav>
     <center>
         <div class="div-center col-sm-2 shadow-lg p-3 mb-5 bg-white rounded mt-5">
-             <form method="post" action="logowanie.php">
+             <form method="post" action="resetpassword.php">
                  <?php include('errors.php'); ?>
               <div class="form-group">
-                <label for="exampleInputEmail1" >Adres Email</label>
+                <label for="exampleInputEmail1" >Podaj twój adres e-mail</label>
                 <input type="email" class="form-control" name="emailId" aria-describedby="emailHelp" placeholder="Wprowadz email">
               </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Hasło</label>
-                <input type="password" class="form-control" name="passwordId" id="passwordId" placeholder="Wprowadz hasło">
-                <input type="checkbox" onclick="showPassword()" class="mt-3"> Pokaż hasło
-              </div>
-              <button type="submit" class="btn btn-primary" name="log_user">Zaloguj</button>
+              <button type="submit" class="btn btn-primary" name="reset_password">Zresetuj hasło</button>
             </form>
-                <br/>
-                <a href="rejestracja.php" ><button class="btn btn-primary">Zarejestruj się</button></a>
-                <hr>
-                    <a href="resetpassword.php" >Zapomniałeś hasła?</a>
-            </div>
+
+        </div>
     </center>
 
 </body>

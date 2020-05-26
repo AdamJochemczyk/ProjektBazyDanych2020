@@ -1,28 +1,28 @@
-<?php 
-	session_start(); 
+<?php
+	session_start();
     if(!isset($_SESSION['admin'])){
         $_SESSION['msg'] = "Brak uprawnień!";
         header('location: index.php');
 
       }
-	if (isset($_GET['logout'])) 
+	if (isset($_GET['logout']))
     {
 		session_destroy();
 		unset($_SESSION['email']);
 		header("location: index.php");
     }
 
-    $errors = array(); 
+    $errors = array();
 
 
 $conn = mysqli_connect(
 
     "localhost",
     "root",
-    "root",
+    "",
     "mydb"
 
-);  
+);
 ?>
 <?php
 if(isset($_POST['updateBtn'])){
@@ -42,7 +42,7 @@ if(isset($_POST['updateBtn'])){
         if (empty($wiek)) { array_push($errors, "Wiek jest wymagany"); }
         if ($wiek<0) { array_push($errors, "Wiek nie moze być ujemny"); }
         if (empty($kwota)||($kwota==0)||($kwota<0)) { $kwota=0; }
-        
+
         if (count($errors) == 0) {
             $sql = "UPDATE uzytkownik SET email='$email', haslo='$haslo', Imie='$imie', Nazwisko='$nazwisko', wiek='$wiek', kwota='$kwota' where idUzytkownik='$id'";
             $result = $conn->query($sql);
@@ -96,9 +96,9 @@ if(isset($_POST['updateInwBtn'])){
         $typSwitch = mysqli_real_escape_string($conn, $_POST['typInwId']);
         $typ;
         $koszt = mysqli_real_escape_string($conn, $_POST['kosztId']);
-        
+
         switch ($typSwitch) {
-			case 'Lokaty': $typ="1"; break;				
+			case 'Lokaty': $typ="1"; break;
 			case 'n': $typ="2"; break;
 			case 's': $typ="3"; break;
 			case 'w': $typ="4"; break;
@@ -106,7 +106,7 @@ if(isset($_POST['updateInwBtn'])){
 			case 'a': $typ="6"; break;
 			default:  $typ=1; break;
         }
-        
+
         if (empty($nazwa)) { array_push($errors, "Nazwa jest wymagana"); }
         if (empty($typ)) { array_push($errors, "Błędny typ"); }
         if (empty($koszt)||($koszt==0)||($koszt<0)) { $kwota=0; }

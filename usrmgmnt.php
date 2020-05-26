@@ -1,12 +1,12 @@
-<?php 
-  session_start(); 
+<?php
+  session_start();
   if(!isset($_SESSION['admin'])){
     $_SESSION['msg'] = "Brak uprawnień!";
     header('location: index.php');
 
   }
 
-	if (isset($_GET['logout'])) 
+	if (isset($_GET['logout']))
     {
 		session_destroy();
 		unset($_SESSION['email']);
@@ -17,16 +17,16 @@ $conn = mysqli_connect(
 
     "localhost",
     "root",
-    "root",
+    "",
     "mydb"
 
 );
 
 
-$sql = "SELECT * FROM uzytkownik where id_roli = 2";
+$sql = "SELECT * FROM uzytkownik";
 
 $result = $conn->query($sql);
-    
+
 ?>
 <!DOCTYPE html>
 <html>

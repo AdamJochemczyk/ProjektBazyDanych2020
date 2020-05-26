@@ -1,9 +1,9 @@
-<?php 
+<?php
 	session_start();
 
 	$email    = "";
 	$idUzytkownik    = "";
-	$errors = array(); 
+	$errors = array();
 	$_SESSION['success'] = "";
 
     function checkemail($str) {
@@ -35,16 +35,14 @@
 
 		// register user if there are no errors in the form
 		if (count($errors) == 0) {
-			$query = "INSERT INTO uzytkownik (email, haslo,id_roli,wiek,kwota,Imie,Nazwisko) 
-					  VALUES('$email', '$password', '2','$wiek','$kwota','$imie','$nazwisko')";
+			$password_hashed = md5($password);
+			$query = "INSERT INTO uzytkownik (email, haslo,id_roli,wiek,kwota,Imie,Nazwisko)
+					  VALUES('$email', '$password_hashed', '2','$wiek','$kwota','$imie','$nazwisko')";
 			mysqli_query($db, $query);
 
 			$_SESSION['email'] = $email;
 			$_SESSION['success'] = "You are now logged in";
 			header('location: mojportfel.php');
-
-			
-
 
 		}
 
@@ -56,36 +54,37 @@
 		$email = mysqli_real_escape_string($db, $_POST['emailId']);
 		$password = mysqli_real_escape_string($db, $_POST['passwordId']);
 
-		if (empty($email)) 
+		if (empty($email))
         {
 			array_push($errors, "Email jest wymagany");
 		}
-        
-		if (empty($password)) 
+
+		if (empty($password))
         {
 			array_push($errors, "Hasło jest wymagane");
 		}
-        
-		if (count($errors) == 0) 
+
+		if (count($errors) == 0)
         {
+					$password = md5($password);
 			$query = "SELECT * FROM uzytkownik WHERE email='$email' AND haslo='$password'";
 			$results = mysqli_query($db, $query);
-            
+
 			$roleCheck = "SELECT nazwa_roli FROM rola, uzytkownik where uzytkownik.id_roli = rola.id_roli AND uzytkownik.email = '$email'";
 			$checkResult = mysqli_query($db,$roleCheck);
 			$row = mysqli_fetch_assoc($checkResult);
 
-			
-			
+
+
             $pobranieIDkwerenda = "SELECT idUzytkownik FROM uzytkownik WHERE email='$email'";
             $wyslaniekwerendy = mysqli_query($db,$pobranieIDkwerenda);
             $pobierzID = mysqli_fetch_assoc($wyslaniekwerendy);
-            
-			if (mysqli_num_rows($results) == 1) 
+
+			if (mysqli_num_rows($results) == 1)
             {
                $idUzytkownik = $pobierzID['idUzytkownik'];
-                   
-                $_SESSION['idUzytkownik']=$idUzytkownik;
+
+        $_SESSION['idUzytkownik']=$idUzytkownik;
 				$_SESSION['email'] = $email;
 				$_SESSION['success'] = "Zalogowano";
 				if($row['nazwa_roli'] == "admin")
@@ -98,12 +97,47 @@
 					header('location: mojportfel.php');
 				}
 			}
-            else 
+            else
             {
 				array_push($errors, "Niepoprawne dane logowania!");
 			}
 		}
 	}
+	if (isset($_POST['reset_password']))
+	{
+			$email = mysqli_real_escape_string($db, $_POST['emailId']);
+			if (empty($email))
+	        {
+				array_push($errors, "Email jest wymagany");
+			}
+
+			if (count($errors) == 0)
+	        {
+				$query = "SELECT * FROM uzytkownik WHERE email='$email';";
+				$results = mysqli_query($db, $query);
+
+				if (mysqli_num_rows($results) == 1)
+	            {
+	                $new_password = rand(999,99999);
+	                $new_password_hash = md5($new_password);
+
+	                $query = "UPDATE uzytkownik SET haslo='$new_password_hash' WHERE email='$email';";
+				    $go_update = mysqli_query($db, $query);
+
+	               if($go_update)
+	               {
+	                   $new_password = "Twoje nowe hasło to : $new_password";
+	                   //$comunicate = "Twoje nowe hasło to : "+$new_password+". Możesz się teraz zalogować z nowym hasłem!";
+	                   array_push($errors, $new_password);
+
+	               }
+				}
+	            else
+	            {
+					array_push($errors, "Nie istnieje konto z podanym adresem e-mail!");
+				}
+			}
+		}
 
 	//Admin
 	if (isset($_POST['admin_usr'])) {
@@ -127,17 +161,19 @@
 		// register user if there are no errors in the form
 		if (count($errors) == 0) {
 			if($rola == "user"){
-			$query = "INSERT INTO uzytkownik (email, haslo,id_roli,wiek,kwota,Imie,Nazwisko) 
-					  VALUES('$email', '$password', '2','$wiek','$kwota','$imie','$nazwisko')";
+				$password_hashed = md5($password);
+			$query = "INSERT INTO uzytkownik (email, haslo,id_roli,wiek,kwota,Imie,Nazwisko)
+					  VALUES('$email', '$password_hashed', '2','$wiek','$kwota','$imie','$nazwisko')";
 			}
 			else if($rola == "admin"){
-				$query = "INSERT INTO uzytkownik (email, haslo,id_roli,wiek,kwota,Imie,Nazwisko) 
-					  VALUES('$email', '$password', '1','$wiek','$kwota','$imie','$nazwisko')";
+				$password_hashed = md5($password);
+				$query = "INSERT INTO uzytkownik (email, haslo,id_roli,wiek,kwota,Imie,Nazwisko)
+					  VALUES('$email', '$password_hashed', '1','$wiek','$kwota','$imie','$nazwisko')";
 			}
 			mysqli_query($db, $query);
 			header('location: usrmgmnt.php');
 
-			
+
 
 
 		}
@@ -150,18 +186,16 @@
 		$nazwa = mysqli_real_escape_string($db, $_POST['inwId']);
 		$typSwitch = mysqli_real_escape_string($db, $_POST['typInwId']);
 		$koszt = mysqli_real_escape_string($db, $_POST['kosztId']);
-		$stopa = mysqli_real_escape_string($db, $_POST['stopaId']);
 		$typ = "";
-		
+
 
 		if (empty($nazwa)) { array_push($errors, "Nazwa jest wymagana"); }
 		if (empty($typSwitch)) { array_push($errors, "Typ jest wymagany"); }
 		if (empty($koszt)) { array_push($errors, "Koszt jest wymagany"); }
-		if (empty($stopa)) { array_push($errors, "Stopa jest wymagana"); }
 
 
 		switch ($typSwitch) {
-			case 'Lokaty': $typ="1"; break;				
+			case 'Lokaty': $typ="1"; break;
 			case 'n': $typ="2"; break;
 			case 's': $typ="3"; break;
 			case 'w': $typ="4"; break;
@@ -171,8 +205,8 @@
 		}
 		//Problem z id, brak autoinkrementacji
 		if(count($errors)==0){
-		$query = "INSERT INTO inwestycje (idInwestycje, nazwa, id_typ, koszt_inwestycji, PStopaZwrotu, Data_zakonczenia, Data_rozpoczecia)
-				  VALUES ('11','$nazwa', '$typ', '$koszt', '$stopa', NULL, NULL)";
+		$query = "INSERT INTO inwestycje (idInwestycje, nazwa, id_typ, koszt_inwestycji)
+				  VALUES (NULL,'$nazwa', '$typ', '$koszt')";
 
 		mysqli_query($db,$query);
 		header('location: inwmgmnt.php');

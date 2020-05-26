@@ -1,11 +1,11 @@
-<?php 
-	session_start(); 
+<?php
+	session_start();
   if(!isset($_SESSION['admin'])){
     $_SESSION['msg'] = "Brak uprawnień!";
     header('location: index.php');
 
   }
-	if (isset($_GET['logout'])) 
+	if (isset($_GET['logout']))
     {
 		session_destroy();
 		unset($_SESSION['email']);
@@ -16,10 +16,10 @@ $conn = mysqli_connect(
 
     "localhost",
     "root",
-    "root",
+    "",
     "mydb"
 
-);  
+);
 ?>
 <!DOCTYPE html>
 <html>
@@ -85,7 +85,7 @@ $conn = mysqli_connect(
   </div>
 </nav>
 
-<center>       
+<center>
                  <?php include('errors.php'); ?>
 
 <?php
