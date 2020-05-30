@@ -213,4 +213,22 @@
 		}
 
 	}
+//Zmiana danych w userpanel
+if (isset($_POST['change_data'])) {
+	$email=$_SESSION['email'];
+	$emailch = mysqli_real_escape_string($db, $_POST['emailIdchange']);
+	$passwordch = mysqli_real_escape_string($db, $_POST['passwordIdchange']);
+	$namech = mysqli_real_escape_string($db, $_POST['nameIdch']);
+	$surnamech = mysqli_real_escape_string($db, $_POST['surnameIdch']);
+	if (empty($emailch)) { array_push($errors, "Email jest wymagany"); }
+	if (empty($passwordch)) { array_push($errors, "Hasło jest wymagane"); }
+	if (empty($namech)) { array_push($errors, "Imie jest wymagane"); }
+	if (empty($surnamech)) { array_push($errors, "Nazwisko jest wymagane"); }
+	if (count($errors) == 0) {
+		$password_hashed = md5($passwordch);
+		$query = "UPDATE uzytkownik SET email='$emailch', haslo='$password_hashed', Imie='$namech', Nazwisko='$surnamech' WHERE email='$email';";
+		mysqli_query($db, $query);
+	}
+
+}
 ?>

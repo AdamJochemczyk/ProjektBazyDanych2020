@@ -72,10 +72,6 @@ else {
     </ul>
   </div>
 </nav>
-
-    <div class="col-lr-6 div-center" style="text-align: center; font-size: 4rem">
-    Twoje inwestycje
-  </div>
   <div class="row" style="padding: 3%;">
     <div class="col-lr-6" style="font-size: 1.5rem; margin: 0 5% 0 0;">
       <label>W portfelu: </label>
@@ -89,7 +85,7 @@ else {
       }
        ?>
     </div>
-  <div class="col-lr-6">
+  <div class="col-lr-2">
     <form method="post" action="mojportfel.php">
       <div class="form-group">
         <label>Zasil konto:</label>
@@ -109,6 +105,12 @@ else {
           }
         }
      ?>
+  </div>
+  <div class="col-lr-2 ml-5 pl-5">
+  <a href="raport.php" class="btn btn-dark btn-lg">Generuj raport inwestycyjny</a>
+  </div>
+  <div class="col-lr-2 ml-5 pl-5" style="margin-left: 10px;">
+  <a href="userpanel.php" class="btn btn-dark btn-lg">Panel użytkownika</a>
   </div>
 </div>
 <div class="row" style="padding: 0 0 0 3%;">
