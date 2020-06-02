@@ -65,15 +65,17 @@
 		$Connection = new mysqli('localhost', 'root', '', 'mydb');
 		$Connection->set_charset("utf8");   
         $Query = "SELECT * FROM inwestycje WHERE id_typ=2 AND Wykupione=0";
-		$Result = $Connection->query($Query);
-
+		$Result1 = $Connection->query($Query);
+      //  $Query3="SELECT koszt_inwestycji FROM inwestycje WHERE idInwestycje='3';";
+       // $Result2 = $Connection->query($Query3);
+        
 		echo "<table>";
 		echo "<tr><th>Identyfikator</th><th>Nazwa Inwestycji</th>
         <th>Koszt inwestycji</th>
         </tr>";
-		if ($Result->num_rows > 0)
+		if ($Result1->num_rows > 0)
 		{
-			while ($Row = $Result->fetch_array())
+			while ($Row = $Result1->fetch_array())
 			{
 				echo "<tr><form method='post' action='Zakup.php'>
 				
@@ -89,8 +91,9 @@
 
 			
 		}
-		echo "</table>"; 
-
+		
+        
+        
 ?>
     </section>
 
