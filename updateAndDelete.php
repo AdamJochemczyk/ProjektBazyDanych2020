@@ -47,12 +47,8 @@ if(isset($_POST['updateBtn'])){
             $sql = "UPDATE uzytkownik SET email='$email', haslo='$haslo', Imie='$imie', Nazwisko='$nazwisko', wiek='$wiek', kwota='$kwota' where idUzytkownik='$id'";
             $result = $conn->query($sql);
 
-    if($result){
         header('Location: usrmgmnt.php');
-    }
-}
-else{
-    header('Location: usrmgmnt.php');
+
 }
 }
 ?>
@@ -64,12 +60,8 @@ if(isset($_POST['deleteBtn'])){
     $sql = "DELETE FROM uzytkownik WHERE idUzytkownik = '$id'";
     $result = $conn->query($sql);
 
-    if($result){
         header('Location: usrmgmnt.php');
-    }
-}
-else{
-    header('Location: usrmgmnt.php');
+
 }
 ?>
 
@@ -80,12 +72,8 @@ if(isset($_POST['deleteInwBtn'])){
     $sql = "DELETE FROM inwestycje WHERE idInwestycje = '$id'";
     $result = $conn->query($sql);
 
-    if($result){
         header('Location: inwmgmnt.php');
-    }
-}
-else{
-    header('Location: inwmgmnt.php');
+
 }
 ?>
 
@@ -115,13 +103,8 @@ if(isset($_POST['updateInwBtn'])){
     $sql = "UPDATE inwestycje SET nazwa='$nazwa', id_typ='$typ', koszt_inwestycji='$koszt' where idInwestycje ='$id'";
     $result = $conn->query($sql);
 
-    if($result){
         header('Location: inwmgmnt.php');
-    }
 }
 
-else{
-    header('Location: inwmgmnt.php');
-}
 }
 ?>

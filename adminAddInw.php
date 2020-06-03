@@ -72,12 +72,12 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Typ inwestycji</label>
                 <select class="form-control" name="typInwId">
-                <option value='l'>Lokaty</option>
-                <option value='n'>Nieruchomości</option>
-                <option value='s'>Surowce</option>
-                <option value='w'>Waluty</option>
-                <option value='o'>Obligacje</option>
-                <option value='a'>Akcje</option>
+                <option value='1'>Lokaty</option>
+                <option value='2'>Nieruchomości</option>
+                <option value='3'>Surowce</option>
+                <option value='4'>Waluty</option>
+                <option value='5'>Obligacje</option>
+                <option value='6'>Akcje</option>
                 </select>
             </div>
               <div class="form-group">

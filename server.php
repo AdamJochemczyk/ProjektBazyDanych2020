@@ -183,30 +183,23 @@
 
 	//Inwestycja - dodawanie
 	if(isset($_POST['admin_inw'])){
-		$nazwa = mysqli_real_escape_string($db, $_POST['inwId']);
-		$typSwitch = mysqli_real_escape_string($db, $_POST['typInwId']);
-		$koszt = mysqli_real_escape_string($db, $_POST['kosztId']);
-		$typ = "";
 
+		$idQuery = "SELECT MAX(idInwestycje) AS 'MaxID' FROM `inwestycje`";
+		$idResult = $db->query($idQuery);
+		$row = $idResult->fetch_assoc();
+
+		$nazwa = mysqli_real_escape_string($db, $_POST['inwId']);
+		$typ = mysqli_real_escape_string($db, $_POST['typInwId']);
+		$koszt = mysqli_real_escape_string($db, $_POST['kosztId']);
+		$id = ++$row['MaxID'];
 
 		if (empty($nazwa)) { array_push($errors, "Nazwa jest wymagana"); }
-		if (empty($typSwitch)) { array_push($errors, "Typ jest wymagany"); }
 		if (empty($koszt)) { array_push($errors, "Koszt jest wymagany"); }
 
 
-		switch ($typSwitch) {
-			case 'Lokaty': $typ="1"; break;
-			case 'n': $typ="2"; break;
-			case 's': $typ="3"; break;
-			case 'w': $typ="4"; break;
-			case 'o': $typ="5"; break;
-			case 'a': $typ="6"; break;
-			default:  $typ="1"; break;
-		}
-		//Problem z id, brak autoinkrementacji
 		if(count($errors)==0){
-		$query = "INSERT INTO inwestycje (idInwestycje, nazwa, id_typ, koszt_inwestycji)
-				  VALUES (NULL,'$nazwa', '$typ', '$koszt')";
+		$query = "INSERT INTO inwestycje (idInwestycje, nazwa, id_typ, koszt_inwestycji, Wykupione)
+				  VALUES ('$id', '$nazwa', '$typ', '$koszt', '0')";
 
 		mysqli_query($db,$query);
 		header('location: inwmgmnt.php');

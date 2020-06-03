@@ -24,7 +24,7 @@ $conn = mysqli_connect(
 );
 
 
-$sql = "SELECT * FROM `inwestycje`, typinwestycji where inwestycje.id_typ = typinwestycji.idTypInwestycji";
+$sql = "SELECT * FROM `inwestycje`, typinwestycji where inwestycje.id_typ = typinwestycji.idTypInwestycji ORDER BY `idInwestycje` ASC";
 
 $result = $conn->query($sql);
 
@@ -105,6 +105,7 @@ $result = $conn->query($sql);
         <th>Nazwa</th>
         <th>Typ</th>
         <th>Koszt</th>
+        <th>Wykupione</th>
         <th>Usuń</th>
         <th>Edytuj</th>
     </tr>
@@ -115,7 +116,8 @@ $result = $conn->query($sql);
             .$row["idInwestycje"]."</td><td>"
             .$row["nazwa"]."</td><td>"
             .$row["nazwaInw"]."</td><td>"
-            .$row["koszt_inwestycji"]."</td>";
+            .$row["koszt_inwestycji"]."</td><td>"
+            .$row["Wykupione"]."</td>";
             ?>
             <td>
             <form action="updateAndDelete.php" method="post">
