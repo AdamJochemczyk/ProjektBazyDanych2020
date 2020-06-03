@@ -224,4 +224,39 @@ if (isset($_POST['change_data'])) {
 	}
 
 }
+
+//Sprzedawanie inwestycji
+if(isset($_POST['sprzedajbtn'], $_POST['kwotasprzedazy'])) {
+	$nazwasprzedawanej=$_POST['sprzedajbtn'];
+	$kwotasprzedazy=$_POST['kwotasprzedazy'];
+	$query1="SELECT idInwestycje FROM inwestycje WHERE nazwa LIKE '%$nazwasprzedawanej%'";
+	$result = $db->query($query1);
+	if ($result->num_rows > 0)
+	{
+	  while($Row=$result->fetch_array())
+	  {
+		  $idInw=$Row[0];
+	  }
+	}
+	$email=$_SESSION['email'];
+	$idUzytkownik=$_SESSION['idUzytkownik'];
+	echo "<html>";
+	echo " kwota sprzedazy: ".$kwotasprzedazy;
+	echo " Mail: ".$email;
+	echo " id użytkownika: ".$idUzytkownik;
+	echo "</html>";
+	//dodaj date zakonczenia i kwote sprzedazy
+	$query2="UPDATE inwestycjeuzytkownik SET DATA_Z=current_timestamp(), kwotaSprzedazy='$kwotasprzedazy' WHERE idInwestycje='$idInw' AND idUzytkownik='$idUzytkownik';";
+	$db->query($query2);
+
+	//aktywo wraca na rynek
+	$query3="UPDATE inwestycje SET Wykupione=0 WHERE idInwestycje='$idInw';";
+	$db->query($query3);
+
+	//kwota dodaje sie do portfela										
+	$query4="UPDATE uzytkownik SET kwota=kwota+$kwotasprzedazy WHERE email='$email';";
+	$db->query($query4);
+
+	header('location: mojportfel.php');
+}
 ?>
