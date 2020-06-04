@@ -30,6 +30,7 @@
 		if (empty($wiek)) { array_push($errors, "Wiek jest wymagany"); }
         if ($wiek<0) { array_push($errors, "Podany wiek jest niepoprawny!");}
         if ($wiek<18) { array_push($errors, "Podany wiek nie przekracza 18 lat!");}
+        if ($wiek>150) { array_push($errors, "Podany wiek troche nieprawdopodobny!");}
 		if (empty($kwota)||($kwota==0)) { $kwota=0; }
 
 
@@ -66,7 +67,7 @@
 
 		if (count($errors) == 0)
         {
-					$password = md5($password);
+            $password = md5($password);
 			$query = "SELECT * FROM uzytkownik WHERE email='$email' AND haslo='$password'";
 			$results = mysqli_query($db, $query);
 
@@ -84,7 +85,7 @@
             {
                $idUzytkownik = $pobierzID['idUzytkownik'];
 
-        $_SESSION['idUzytkownik']=$idUzytkownik;
+                $_SESSION['idUzytkownik']=$idUzytkownik;
 				$_SESSION['email'] = $email;
 				$_SESSION['success'] = "Zalogowano";
 				if($row['nazwa_roli'] == "admin")
@@ -249,8 +250,8 @@ if(isset($_POST['sprzedajbtn'], $_POST['kwotasprzedazy'])) {
 	$query2="UPDATE inwestycjeuzytkownik SET DATA_Z=current_timestamp(), kwotaSprzedazy='$kwotasprzedazy' WHERE idInwestycje='$idInw' AND idUzytkownik='$idUzytkownik';";
 	$db->query($query2);
 
-	//aktywo wraca na rynek
-	$query3="UPDATE inwestycje SET Wykupione=0 WHERE idInwestycje='$idInw';";
+	//aktywo wraca na rynek z nową ceną
+	$query3="UPDATE inwestycje SET Wykupione=0, koszt_inwestycji='$kwotasprzedazy' WHERE idInwestycje='$idInw';";
 	$db->query($query3);
 
 	//kwota dodaje sie do portfela										

@@ -14,7 +14,8 @@ if (!isset($_SESSION['email']))
   $_SESSION['msg'] = "Musisz się zalogować!";
   header('location: logowanie.php');
 }
-else {
+else 
+{
   //pobieranie danych do tabeli
   $mail=$_SESSION['email'];
   $sql = "SELECT inwestycje.nazwa, inwestycje.koszt_inwestycji, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
@@ -22,7 +23,18 @@ else {
     WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje AND
      uzytkownik.idUzytkownik=inwestycjeuzytkownik.idUzytkownik AND uzytkownik.email='$mail'";
   $result = $conn->query($sql);
+    
+    //do iteracji
   $i=1;
+        $pobranieKwota = "SELECT kwota FROM uzytkownik WHERE email='$mail'";
+        $resultMoney = mysqli_query($conn, $pobranieKwota);
+        if ($resultMoney->num_rows > 0)
+        {
+          while($Row=$resultMoney->fetch_array())
+          {
+              $money=$Row[0];
+          }
+        }
 }
 ?>
 
@@ -40,7 +52,7 @@ else {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg mb-5">
     <a class="navbar-brand" href="index.php">
         <img src="favicon.ico" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
         nwestycje
@@ -60,7 +72,7 @@ else {
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active mt-2">
         <?php  if (isset($_SESSION['email'])) : ?>
-			Witaj <strong><?php echo $_SESSION['email']; ?></strong>
+			Witaj <strong><i><?php echo $_SESSION['email']; ?></i> [<?php echo $money;?> zł]</strong>
           </li>
         <li class="nav-item active">
 			<a class="nav-link" href="index.php?logout='1'">Wyloguj</a>
