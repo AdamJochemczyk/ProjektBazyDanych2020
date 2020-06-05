@@ -142,7 +142,7 @@ else
    </table>
       
   <h3><p>Stopa zwrotu z inwestycji za okres od:<?php echo $startdata; ?> do: <?php echo $enddata; ?> wynosi: <?php echo $calkowitastopa; ?>%
-  <br/>Średnia stopa zwrotu wynosi:<?php echo $calkowitastopa/$i; ?>%</p>
+  <br/>Średnia stopa zwrotu wynosi:<?php echo $calkowitastopa/($i-1); ?>%</p>
   </h3>
 </div>
 </body>
