@@ -1,12 +1,31 @@
 <?php
 	session_start();
+  $conn = mysqli_connect(
 
+    "localhost",
+    "root",
+    "",
+    "mydb"
+
+);
 	if (isset($_GET['logout']))
     {
 		session_destroy();
 		unset($_SESSION['email']);
-		header("location: obligacje.php");
-	}
+		header("location: index.php");
+  }
+  else {
+    $mail=$_SESSION['email'];
+    $pobranieKwota = "SELECT kwota FROM uzytkownik WHERE email='$mail'";
+    $resultMoney = mysqli_query($conn, $pobranieKwota);
+    if ($resultMoney->num_rows > 0)
+    {
+      while($Row=$resultMoney->fetch_array())
+      {
+          $money=$Row[0];
+      }
+    }
+  }
 
 ?>
 <!DOCTYPE html>
@@ -43,7 +62,7 @@
 			<ul class="navbar-nav ml-auto">
       <li class="nav-item active mt-2">
         <?php  if (isset($_SESSION['email'])) : ?>
-			Witaj <strong><?php echo $_SESSION['email']; ?></strong>
+			Witaj <strong><i><?php echo $_SESSION['email']; ?></i> [<?php echo $money;?> zł]</strong>
           </li>
         <li class="nav-item active">
 			<a class="nav-link" href="../index.php?logout='1'">Wyloguj</a>
@@ -66,23 +85,19 @@
 		$Connection->set_charset("utf8");   
         $Query = "SELECT * FROM inwestycje WHERE id_typ=5 AND Wykupione=0";
 		$Result = $Connection->query($Query);
-
-		echo "<table>";
-		echo "<tr><th>Identyfikator</th><th>Nazwa Inwestycji</th>
-        <th>Koszt inwestycji</th>
-        </tr>";
+    echo "<center><h1>Obligacje</h1></center>";
+		echo "<table class='table table-bordered shadow-lg'>";
+		echo "<tr><th>Identyfikator</th><th>Nazwa Inwestycji</th><th>Koszt inwestycji</th><th></th></tr>";
 		if ($Result->num_rows > 0)
 		{
 			while ($Row = $Result->fetch_array())
 			{
 				echo "<tr><form method='post' action='Zakup.php'>
 				
-				<td><input type='text' value='$Row[0]' name='Identyfikator'/></td>
-				<td><input type='text' value='$Row[1]' name='Nazwa Inwestycji'/></td>
-                <td><input type='text' value='$Row[3]' name='Koszt Inwestycji'/></td>
-                
-                
-				<td><input type='submit' value='Zakup'/></td>
+				<td><input type='text' value='$Row[0]' name='Identyfikator' class='form-control' readonly='readonly'/></td>
+				<td><input type='text' value='$Row[1]' name='Nazwa Inwestycji' class='form-control' readonly='readonly'/></td>
+        <td><input type='text' value='$Row[3]' name='Koszt Inwestycji' class='form-control' readonly='readonly'/></td>       
+				<td><input type='submit' value='Zakup' class='btn btn-lg btn-dark'/></td>
 				
 				</form></tr>";
 			}
@@ -92,8 +107,6 @@
 		echo "</table>"; 
 
 ?>
-    </section>
-
-  
+</section>
 </body>
 </html>

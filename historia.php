@@ -18,7 +18,7 @@ else
 {
   //pobieranie danych do tabeli
   $mail=$_SESSION['email'];
-  $sql = "SELECT inwestycje.nazwa, inwestycje.koszt_inwestycji, inwestycjeuzytkownik.kwotaSprzedazy, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
+  $sql = "SELECT inwestycje.nazwa, inwestycjeuzytkownik.kwotaZakupu, inwestycjeuzytkownik.kwotaSprzedazy, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
    FROM inwestycje, inwestycjeuzytkownik, uzytkownik
     WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje AND
      uzytkownik.idUzytkownik=inwestycjeuzytkownik.idUzytkownik AND uzytkownik.email='$mail'";
@@ -88,8 +88,13 @@ else
 </nav>
 <div class="row">
   <div class="col-lr-2 ml-5 pl-5">
-  Tu bedzie formularz
-  <a href="raport.php" class="btn btn-dark btn-lg">Generuj raport</a>
+  <form action="raport.php" method="POST">
+  Raport za okres od:
+  <input type="date" name="startdata" class='form-control'>
+    do:
+  <input type="date" name="enddata" class='form-control'>
+  <input type="submit" class="btn btn-dark btn-lg" value="Generuj raport">
+  </form>
   </div>
   <div class="col-lr-2 ml-5 pl-5">
   <a href="mojportfel.php" class="btn btn-dark btn-lg">Wróc do portfela</a>
@@ -115,12 +120,21 @@ else
             if($row['DATA_Z']!=null)
             {
             echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td>";
-            echo "<td>" . $row['koszt_inwestycji'] ."</td>";
-            echo "<td>" . $row['kwotaSprzedazy']."</td>";
+            echo "<td>" . $row['kwotaZakupu'] ." zł </td>";
+            echo "<td>" . $row['kwotaSprzedazy']."zł </td>";
             echo "<td>". $row['DATA_R'] ."</td>";
             echo "<td>". $row['DATA_Z'] ."</td>";
-
-            echo "<td>Stopa zwrotu</td></tr>";
+            $wartosckoncowa=$row['kwotaSprzedazy'];
+            $wartoscpoczatkowa=$row['kwotaZakupu'];
+            $stopazwrotu=(($wartosckoncowa/$wartoscpoczatkowa)-1)*100;
+            if($stopazwrotu>0)
+            {
+            echo "<td style='background-color: green;'><b>$stopazwrotu %</b></td></tr>";
+            }
+            else 
+            {
+              echo "<td style='background-color: red;'><b>$stopazwrotu %</b></td></tr>";
+            }  
             }
             $i++;
         } 

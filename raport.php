@@ -18,12 +18,19 @@ else
 {
   //pobieranie danych do tabeli
   $mail=$_SESSION['email'];
-  $sql = "SELECT inwestycje.nazwa, inwestycje.koszt_inwestycji, inwestycjeuzytkownik.kwotaSprzedazy, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
-   FROM inwestycje, inwestycjeuzytkownik, uzytkownik
-    WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje AND
-     uzytkownik.idUzytkownik=inwestycjeuzytkownik.idUzytkownik AND uzytkownik.email='$mail'";
+  $calkowitastopa=0;
+  if(isset($_POST['startdata'], $_POST['enddata']))
+  {
+  $startdata=$_POST['startdata'];
+  $enddata=$_POST['enddata'];
+  $sql = "SELECT inwestycje.nazwa, inwestycjeuzytkownik.kwotaZakupu, inwestycjeuzytkownik.kwotaSprzedazy, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
+  FROM inwestycje, inwestycjeuzytkownik, uzytkownik
+  WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje
+  AND uzytkownik.idUzytkownik=inwestycjeuzytkownik.idUzytkownik 
+  AND uzytkownik.email='$mail' 
+  AND inwestycjeuzytkownik.DATA_Z BETWEEN '$startdata' AND '$enddata'";
   $result = $conn->query($sql);
-    
+  }
     //do iteracji
   $i=1;
         $pobranieKwota = "SELECT kwota FROM uzytkownik WHERE email='$mail'";
@@ -88,11 +95,7 @@ else
 </nav>
 <div class="row">
   <div class="col-lr-2 ml-5 pl-5">
-  Tu bedzie formularz
-  <a href="raport.php" class="btn btn-dark btn-lg">Generuj raport</a>
-  </div>
-  <div class="col-lr-2 ml-5 pl-5">
-  <a href="mojportfel.php" class="btn btn-dark btn-lg">Wróc do portfela</a>
+  <a href="historia.php" class="btn btn-dark btn-lg">Wróc do historii rachunku</a>
   </div>
 
 </div>
@@ -112,21 +115,35 @@ else
   </thead>
   <tbody>
 <?php  while($row = $result->fetch_assoc()) {
-            if($row['DATA_Z']!=null)
-            {
-            echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td>";
-            echo "<td>" . $row['koszt_inwestycji'] ."</td>";
-            echo "<td>" . $row['kwotaSprzedazy']."</td>";
-            echo "<td>". $row['DATA_R'] ."</td>";
-            echo "<td>". $row['DATA_Z'] ."</td>";
-
-            echo "<td>Stopa zwrotu</td></tr>";
-            }
-            $i++;
-        } 
+              if($row['DATA_Z']!=null)
+              {
+              echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td>";
+              echo "<td>" . $row['kwotaZakupu'] ." zł </td>";
+              echo "<td>" . $row['kwotaSprzedazy']."zł </td>";
+              echo "<td>". $row['DATA_R'] ."</td>";
+              echo "<td>". $row['DATA_Z'] ."</td>";
+              $wartosckoncowa=$row['kwotaSprzedazy'];
+              $wartoscpoczatkowa=$row['kwotaZakupu'];
+              $stopazwrotu=(($wartosckoncowa/$wartoscpoczatkowa)-1)*100;
+              if($stopazwrotu>0)
+              {
+              echo "<td style='background-color: green;'><b>$stopazwrotu %</b></td></tr>";
+              }
+              else 
+              {
+                echo "<td style='background-color: red;'><b>$stopazwrotu %</b></td></tr>";
+              }  
+              }
+              $calkowitastopa+=$stopazwrotu;
+              $i++;
+          } 
         ?>
       </tbody>
    </table>
- </div>
+      
+  <h3><p>Stopa zwrotu z inwestycji za okres od:<?php echo $startdata; ?> do: <?php echo $enddata; ?> wynosi: <?php echo $calkowitastopa; ?>%
+  <br/>Średnia stopa zwrotu wynosi:<?php echo $calkowitastopa/$i; ?>%</p>
+  </h3>
+</div>
 </body>
 </html>

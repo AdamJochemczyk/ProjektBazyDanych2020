@@ -16,6 +16,8 @@ $Login = "root";
 $Password = "";
 $Database = "mydb";
 
+$Connection = new mysqli($Server, $Login, $Password, $Database);
+
 $Query5="SELECT kwota FROM uzytkownik WHERE idUzytkownik='$IDU';";
 $Result5 = $Connection->query($Query5);
 $bank;
@@ -49,7 +51,7 @@ else{
    if(($bank-$kowsztinw)>0)
  {  
 $Query = "UPDATE inwestycje SET  Wykupione=1 WHERE idInwestycje=$Identyfikator";
-$Query2 = "INSERT INTO `inwestycjeuzytkownik` (`ID_INW`, `idUzytkownik`, `idInwestycje`, `DATA_R`, `DATA_Z`) VALUES (NULL, '$IDU', '$Identyfikator', current_timestamp(), NULL);";
+$Query2 = "INSERT INTO `inwestycjeuzytkownik` (`ID_INW`, `idUzytkownik`, `idInwestycje`, `DATA_R`, `DATA_Z`, `kwotaSprzedazy`,`kwotaZakupu`) VALUES (NULL, '$IDU', '$Identyfikator', current_timestamp(), NULL, NULL, '$kosztinw');";
 $Query4="UPDATE uzytkownik SET  kwota=kwota-'$kosztinw' WHERE idUzytkownik=$IDU"; 
 $Result1 = $Connection->query($Query);
 $Result2 = $Connection->query($Query2);
@@ -57,7 +59,7 @@ $Result4 = $Connection->query($Query4);
        
 }
 else{
-        $_SESSION['msg'] = "Masz za mało środków!";
+  $_SESSION['msg'] = "Masz za mało środków!";
   header('location: mojportfel.php');
     }
 }

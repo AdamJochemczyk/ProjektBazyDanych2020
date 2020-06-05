@@ -2,27 +2,10 @@
 	session_start();
 
 	if (isset($_GET['logout']))
-    {
-		session_destroy();
+  {
+    session_destroy();
 		unset($_SESSION['email']);
-		header("location: index.php");
 	}
-    else
-    {
-        $db = mysqli_connect('localhost', 'root', '', 'mydb');
-        $emailSession = $_SESSION['email'];
-        $pobranieKwota = "SELECT kwota FROM uzytkownik WHERE email='$emailSession'";
-        $result = mysqli_query($db, $pobranieKwota);
-        if ($result->num_rows > 0)
-        {
-          while($Row=$result->fetch_array())
-          {
-              $money=$Row[0];
-          }
-        }
-    }
-    
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -85,7 +68,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active mt-2">
         <?php  if (isset($_SESSION['email'])) : ?>
-			Witaj <strong><i><?php echo $_SESSION['email']; ?></i> [<?php echo $money;?> zł]</strong>
+			Witaj <strong><i><?php echo $_SESSION['email']; ?></i></strong>
           </li>
         <li class="nav-item active">
 			<a class="nav-link" href="index.php?logout='1'">Wyloguj</a>

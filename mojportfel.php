@@ -18,7 +18,7 @@ else
 {
   //pobieranie danych do tabeli
   $mail=$_SESSION['email'];
-  $sql = "SELECT inwestycje.nazwa, inwestycje.koszt_inwestycji, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
+  $sql = "SELECT inwestycje.nazwa, inwestycjeuzytkownik.kwotaZakupu, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
    FROM inwestycje, inwestycjeuzytkownik, uzytkownik
     WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje AND
      uzytkownik.idUzytkownik=inwestycjeuzytkownik.idUzytkownik AND uzytkownik.email='$mail'";
@@ -121,13 +121,14 @@ else
      ?>
   </div>
   <div class="col-lr-2 ml-5 pl-5">
-  <a href="raport.php" class="btn btn-dark btn-lg">Generuj raport inwestycyjny</a>
+  <a href="historia.php" class="btn btn-dark btn-lg">Historia portfela</a>
   </div>
   <div class="col-lr-2 ml-5 pl-5" style="margin-left: 10px;">
   <a href="userpanel.php" class="btn btn-dark btn-lg">Panel użytkownika</a>
   </div>
 </div>
 <div class="row" style="padding: 0 5% 0 5%;">
+<h1> Inwestycje trwające</h1>
   <table class="table col-lr-6 table-bordered shadow-lg">
   <thead>
     <tr>
@@ -135,23 +136,18 @@ else
       <th scope="col">Nazwa</th>
       <th scope="col">Koszt inwestycji</th>
       <th scope="col">Data zakupu</th>
-      <th scope="col">Data zakończenia</th>
       <th scope="col">Akcja</th>
     </tr>
   </thead>
   <tbody>
 <?php  while($row = $result->fetch_assoc()) {
-            echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td>";
-            echo "<td>" . $row['koszt_inwestycji'] ."</td>";
-            echo "<td>". $row['DATA_R'] ."</td>";
-            echo "<td>". $row['DATA_Z'] ."</td>";
             if($row['DATA_Z']==null)
             {
+            echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td>";
+            echo "<td>" . $row['kwotaZakupu'] ." zł</td>";
+            echo "<td>". $row['DATA_R'] ."</td>";
             echo "<td><form action='server.php' method='POST'>Kwota sprzedaży: <input type='number' name='kwotasprzedazy'>";
             echo "<button type='submit' name='sprzedajbtn' class='btn btn-dark btn-lg' value=".$row['nazwa'].">Sprzedaj</button></form></td></tr>";
-            }
-            else {
-              echo "</td></form><td>Aktywo sprzedane</td></tr>";
             }
             $i++;
         } 
