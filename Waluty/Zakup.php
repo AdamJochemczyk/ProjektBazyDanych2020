@@ -6,13 +6,12 @@ $IDU=$_SESSION['idUzytkownik'];
 $Identyfikator = $_POST["Identyfikator"];
 $idInwestycje = $_GET["idInwestycje"];
 $Wykupione = $_POST["Wykupione"];
-
 $ID_INW = $_POST["ID_INW"];
 $idInwestycje = $_POST["idInwestycje"];
-
 $DATA_R = $_POST["DATA_R"];
 $DATA_Z = $_POST["DATA_Z"];
 $kwota=$_SESSION["kwota"];
+
 $Server = "localhost";
 $Login = "root";
 $Password = "";
@@ -57,7 +56,7 @@ else
 
 
 $Query = "UPDATE inwestycje SET  Wykupione=1 WHERE idInwestycje=$Identyfikator";
-$Query2 = "INSERT INTO `inwestycjeuzytkownik` (`ID_INW`, `idUzytkownik`, `idInwestycje`, `DATA_R`, `DATA_Z`) VALUES (NULL, '$IDU', '$Identyfikator', current_timestamp(), NULL);";
+$Query2 = "INSERT INTO `inwestycjeuzytkownik` (`ID_INW`, `idUzytkownik`, `idInwestycje`, `DATA_R`, `DATA_Z`, `kwotaSprzedazy`,`kwotaZakupu`) VALUES (NULL, '$IDU', '$Identyfikator', current_timestamp(), NULL, NULL, '$kosztinw');";
 $Query4="UPDATE uzytkownik SET  kwota=kwota-'$kosztinw' WHERE idUzytkownik=$IDU";   
 $Result = $Connection->query($Query);
 $Result = $Connection->query($Query2);
