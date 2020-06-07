@@ -51,7 +51,7 @@ $_SESSION['msg'] = "Musisz się zalogować!";
 }
 else {
    
-   if($bank>$kosztinw)
+   if($bank>=$kosztinw)
  {
 
 $Query = "UPDATE inwestycje SET  Wykupione=1 WHERE idInwestycje=$Identyfikator";
