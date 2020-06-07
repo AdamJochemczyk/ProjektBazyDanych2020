@@ -89,9 +89,9 @@ else
 <div class="row">
   <div class="col-lr-2 ml-5 pl-5">
   <form action="raport.php" method="POST">
-  Raport za okres od:
+  Raport za okres pomiędzy:
   <input type="date" name="startdata" class='form-control'>
-    do:
+    a:
   <input type="date" name="enddata" class='form-control'>
   <input type="submit" class="btn btn-dark btn-lg" value="Generuj raport">
   </form>

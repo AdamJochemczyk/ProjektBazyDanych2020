@@ -18,7 +18,8 @@ else
 {
   //pobieranie danych do tabeli
   $mail=$_SESSION['email'];
-  $sql = "SELECT inwestycje.nazwa, inwestycjeuzytkownik.kwotaZakupu, inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z
+  $sql = "SELECT inwestycjeuzytkownik.ID_INW, inwestycje.nazwa, inwestycjeuzytkownik.kwotaZakupu, inwestycjeuzytkownik.kwotaSprzedazy,
+   inwestycjeuzytkownik.DATA_R, inwestycjeuzytkownik.DATA_Z, inwestycje.id_typ
    FROM inwestycje, inwestycjeuzytkownik, uzytkownik
     WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje AND
      uzytkownik.idUzytkownik=inwestycjeuzytkownik.idUzytkownik AND uzytkownik.email='$mail'";
@@ -103,7 +104,7 @@ else
     <form method="post" action="mojportfel.php">
       <div class="form-group">
         <label>Zasil konto:</label>
-        <input type="text" class="form-control" name="kwotazasilenia" placeholder="Wprowadź kwotę"></br>
+        <input type="text" class="form-control" name="kwotazasilenia" placeholder="Wprowadź kwotę" autocomplete="off"></br>
         <button type="submit" class="btn btn-primary" name="zasil">Zasil</button>
       </div>
     </form>
@@ -136,22 +137,47 @@ else
       <th scope="col">Nazwa</th>
       <th scope="col">Koszt inwestycji</th>
       <th scope="col">Data zakupu</th>
+      <th scope="col">Data zakończenia</th>
       <th scope="col">Akcja</th>
     </tr>
   </thead>
   <tbody>
-<?php  while($row = $result->fetch_assoc()) {
-            if($row['DATA_Z']==null)
+    <?php  
+      $d=strtotime("today");
+      $curdate=date("Y-m-d h:i:sa", $d);
+        while($row = $result->fetch_assoc()) {
+            if($row['kwotaSprzedazy']==null)
             {
-            echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td>";
-            echo "<td>" . $row['kwotaZakupu'] ." zł</td>";
-            echo "<td>". $row['DATA_R'] ."</td>";
-            echo "<td><form action='server.php' method='POST'>Kwota sprzedaży: <input type='number' name='kwotasprzedazy'>";
-            echo "<button type='submit' name='sprzedajbtn' class='btn btn-dark btn-lg' value=".$row['nazwa'].">Sprzedaj</button></form></td></tr>";
+              echo "<tr><th>".$i."</th><td>".$row['nazwa']."</td>";
+              echo "<td>" . $row['kwotaZakupu'] ." zł</td>";
+              echo "<td>". $row['DATA_R'] ."</td>";
+              echo "<td>". $row['DATA_Z'] ."</td>";
+              if($curdate<$row['DATA_Z'] && $row['id_typ']==1 || $row['id_typ']==5)
+              {
+              echo "<td><form action='server.php' method='POST'>";
+              echo "<input type='hidden' name='id_inw' value=".$row['ID_INW'].">";
+              echo "<input type='hidden' name='datazak' value=".$row['DATA_Z'].">";
+              echo "<input type='hidden' name='typ' value=".$row['id_typ']."><input type='hidden' name='kwotasprzedazy' value='1'>";
+              echo "<button type='submit' name='sprzedajbtn' class='btn btn-dark btn-lg' value=".$row['nazwa'].">Zerwij umowe</button></form></td></tr>";
+              }
+              else if($row['DATA_Z']>$curdate && $row['id_typ']==1 || $row['id_typ']==5)
+              {
+                echo "<td><form action='server.php' method='POST'>";
+                echo "<input type='hidden' name='id_inw' value=".$row['ID_INW'].">";
+                echo "<input type='hidden' name='datazak' value=".$row['DATA_Z'].">";
+                echo "<input type='hidden' name='typ' value=".$row['id_typ']."><input type='hidden' name='kwotasprzedazy' value='1'>";
+                echo "<button type='submit' name='sprzedajbtn' class='btn btn-dark btn-lg' value=".$row['nazwa'].">Sprzedaj</button></form></td></tr>";
+              }
+              else { //wyswietlanie wszyskiego oprocz lokat i obligacji 
+              echo "<td><form action='server.php' method='POST'>";
+              echo "<input type='hidden' name='id_inw' value=".$row['ID_INW'].">";
+              echo "<input type='hidden' name='typ' value=".$row['id_typ'].">Kwota sprzedaży: <input type='number' name='kwotasprzedazy'>";
+              echo "<button type='submit' name='sprzedajbtn' class='btn btn-dark btn-lg' value=".$row['nazwa'].">Sprzedaj</button></form></td></tr>"; 
+              }
             }
             $i++;
         } 
-        ?>
+    ?>
       </tbody>
    </table>
  </div>

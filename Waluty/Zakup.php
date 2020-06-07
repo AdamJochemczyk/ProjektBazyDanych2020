@@ -51,7 +51,7 @@ else
 {
 
 
- if($bank>$kosztinw)
+ if($bank>=$kosztinw)
  {
 
 

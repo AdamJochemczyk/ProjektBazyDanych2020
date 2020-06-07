@@ -227,37 +227,82 @@ if (isset($_POST['change_data'])) {
 }
 
 //Sprzedawanie inwestycji
-if(isset($_POST['sprzedajbtn'], $_POST['kwotasprzedazy'])) {
+if(isset($_POST['sprzedajbtn'], $_POST['kwotasprzedazy'], $_POST['typ'], $_POST['id_inw'])) {
 	$nazwasprzedawanej=$_POST['sprzedajbtn'];
 	$kwotasprzedazy=$_POST['kwotasprzedazy'];
-	$query1="SELECT idInwestycje FROM inwestycje WHERE nazwa LIKE '%$nazwasprzedawanej%'";
-	$result = $db->query($query1);
-	if ($result->num_rows > 0)
-	{
-	  while($Row=$result->fetch_array())
-	  {
-		  $idInw=$Row[0];
-	  }
-	}
-	$email=$_SESSION['email'];
-	$idUzytkownik=$_SESSION['idUzytkownik'];
+	$typ=$_POST['typ'];
+	$nrinw=$_POST['id_inw'];
+	$idinw;
 	echo "<html>";
-	echo " kwota sprzedazy: ".$kwotasprzedazy;
-	echo " Mail: ".$email;
-	echo " id użytkownika: ".$idUzytkownik;
+	echo "numer porzadkowy w portfelu: ";
+	echo $nrinw;
 	echo "</html>";
-	//dodaj date zakonczenia i kwote sprzedazy
-	$query2="UPDATE inwestycjeuzytkownik SET DATA_Z=current_timestamp(), kwotaSprzedazy='$kwotasprzedazy' WHERE idInwestycje='$idInw' AND idUzytkownik='$idUzytkownik';";
-	$db->query($query2);
 
-	//aktywo wraca na rynek z nową ceną
-	$query3="UPDATE inwestycje SET Wykupione=0, koszt_inwestycji='$kwotasprzedazy' WHERE idInwestycje='$idInw';";
-	$db->query($query3);
+	if($kwotasprzedazy>0)
+	{
+		$query1="SELECT idInwestycje, kwotaZakupu FROM inwestycjeuzytkownik WHERE ID_INW='$nrinw'";
+		$result = $db->query($query1);
+		if ($result->num_rows > 0)
+		{
+			$kosztinwestycji;
+	  		while($Row=$result->fetch_array())
+	  		{
+				$kosztinwestycji=$Row['kwotaZakupu'];
+				$idinw=$Row['idInwestycje'];
+			}
+		$email=$_SESSION['email'];
+		$idUzytkownik=$_SESSION['idUzytkownik'];
 
-	//kwota dodaje sie do portfela										
-	$query4="UPDATE uzytkownik SET kwota=kwota+$kwotasprzedazy WHERE email='$email';";
-	$db->query($query4);
+		//sprzedaz lokaty i obligacji
+		if($typ==1 || $typ==5)
+		{
+			$datazak=$_POST['datazak'];
+			$d=strtotime("today");
+      		$curdate=date("Y-m-d h:i:sa", $d);
+			if($curdate<$datazak)
+			{
+				//sprzedaz przed terminem
+				//dodaj kwote sprzedazy (tu kara za przedterminowe) 
+				$query2="UPDATE inwestycjeuzytkownik SET kwotaSprzedazy=$kosztinwestycji*0.9 WHERE ID_INW='$nrinw' AND idUzytkownik='$idUzytkownik';";
+				$db->query($query2);
 
-	header('location: mojportfel.php');
+				//kwota dodaje sie do portfela										
+				$query3="UPDATE uzytkownik SET kwota=kwota+($kosztinwestycji*0.9) WHERE email='$email';";
+				$db->query($query3);
+
+			}
+			else{ //sprzedaz po terminie naliczane odsetki 3%
+				//dodaj kwote sprzedazy (odsetki) 
+				$query2="UPDATE inwestycjeuzytkownik SET kwotaSprzedazy=$kosztinwestycji*1.03 WHERE ID_INW='$nrinw' AND idUzytkownik='$idUzytkownik';";
+				$db->query($query2);
+
+				//kwota dodaje sie do portfela										
+				$query3="UPDATE uzytkownik SET kwota=kwota+($kosztinwestycji*1.03) WHERE email='$email';";
+				$db->query($query3);
+			}
+			//aktywo wraca na rynek
+			$query4="UPDATE inwestycje SET Wykupione=0 WHERE idInwestycje='$idinw';";
+			$db->query($query4);
+		}
+		else{ //dla innych niz obligacje i lokaty
+			//dodaj date zakonczenia i kwote sprzedazy 
+			$query2="UPDATE inwestycjeuzytkownik SET DATA_Z=current_timestamp(), kwotaSprzedazy='$kwotasprzedazy' WHERE ID_INW='$nrinw' AND idUzytkownik='$idUzytkownik';";
+			$db->query($query2);
+
+			//kwota dodaje sie do portfela										
+			$query3="UPDATE uzytkownik SET kwota=kwota+$kwotasprzedazy WHERE email='$email';";
+			$db->query($query3);
+
+			//aktywo wraca na rynek z nową ceną
+			$query4="UPDATE inwestycje SET Wykupione=0, koszt_inwestycji='$kwotasprzedazy' WHERE idInwestycje='$idinw';";
+			$db->query($query4);
+		}
+
+		}
+	}
+	else{
+		array_push($errors, "Kwota sprzadazy musi byc większa od 0");
+	}
+	//header('location: mojportfel.php');
 }
 ?>

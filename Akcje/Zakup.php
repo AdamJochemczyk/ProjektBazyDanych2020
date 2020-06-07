@@ -49,7 +49,7 @@ if (!isset($_SESSION['email']))
 }
 else{
 
- if($bank>$kosztinw)
+ if($bank>=$kosztinw)
  {
 
 

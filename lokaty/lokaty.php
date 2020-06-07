@@ -98,7 +98,7 @@ else {
 				
 				<td><input type='text' value='$Row[0]' name='Identyfikator' class='form-control' readonly='readonly'/></td>
 				<td><input type='text' value='$Row[1]' name='Nazwa Inwestycji' class='form-control' readonly='readonly'/></td>
-                <td><input type='text' value='$Row[3]' name='Koszt Inwestycji' class='form-control' readonly='readonly'/></td>
+        <td><input type='text' value='$Row[3]' name='Koszt Inwestycji' class='form-control' readonly='readonly'/></td>
                 
                 
 				<td><input type='submit' value='Zakup' class='btn btn-lg btn-dark'/></td>
@@ -109,7 +109,6 @@ else {
 			
 		}
 		echo "</table>"; 
-
 ?>
     </section>
 
