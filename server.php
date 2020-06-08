@@ -104,41 +104,7 @@
 			}
 		}
 	}
-	if (isset($_POST['reset_password']))
-	{
-			$email = mysqli_real_escape_string($db, $_POST['emailId']);
-			if (empty($email))
-	        {
-				array_push($errors, "Email jest wymagany");
-			}
 
-			if (count($errors) == 0)
-	        {
-				$query = "SELECT * FROM uzytkownik WHERE email='$email';";
-				$results = mysqli_query($db, $query);
-
-				if (mysqli_num_rows($results) == 1)
-	            {
-	                $new_password = rand(999,99999);
-	                $new_password_hash = md5($new_password);
-
-	                $query = "UPDATE uzytkownik SET haslo='$new_password_hash' WHERE email='$email';";
-				    $go_update = mysqli_query($db, $query);
-
-	               if($go_update)
-	               {
-	                   $new_password = "Twoje nowe hasło to : $new_password";
-	                   //$comunicate = "Twoje nowe hasło to : "+$new_password+". Możesz się teraz zalogować z nowym hasłem!";
-	                   array_push($errors, $new_password);
-
-	               }
-				}
-	            else
-	            {
-					array_push($errors, "Nie istnieje konto z podanym adresem e-mail!");
-				}
-			}
-		}
 
 	//Admin
 	if (isset($_POST['admin_usr'])) {
