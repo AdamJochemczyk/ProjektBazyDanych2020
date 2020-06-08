@@ -1,38 +1,39 @@
 <?php
 include('server.php');
 if (isset($_POST['reset_password']))
-{
-		$email = mysqli_real_escape_string($db, $_POST['emailId']);
-		if (empty($email))
-        {
-			array_push($errors, "Email jest wymagany");
-		}
-
-		if (count($errors) == 0)
-        {
-			$query = "SELECT * FROM uzytkownik WHERE email='$email';";
-			$results = mysqli_query($db, $query);
-
-			if (mysqli_num_rows($results) == 1)
-            {
-                $new_password = rand(999,99999);
-                $new_password_hash = md5($new_password);
-
-                $query = "UPDATE uzytkownik SET haslo='$new_password_hash' WHERE email='$email';";
-			          $go_update = mysqli_query($db, $query);
-
-               if($go_update)
-               {
-                   $new_password = "Twoje hasło : "+ (string)$new_password;
-                echo $new_password;
-               }
+	{
+			$email = mysqli_real_escape_string($db, $_POST['emailId']);
+			if (empty($email))
+	        {
+				array_push($errors, "Email jest wymagany");
 			}
-            else
-            {
-				array_push($errors, "Nie istnieje konto z podanym adresem e-mail!");
+
+			if (count($errors) == 0)
+	        {
+				$query = "SELECT * FROM uzytkownik WHERE email='$email';";
+				$results = mysqli_query($db, $query);
+
+				if (mysqli_num_rows($results) == 1)
+	            {
+	                $new_password = rand(999,99999);
+	                $new_password_hash = md5($new_password);
+
+	                $query = "UPDATE uzytkownik SET haslo='$new_password_hash' WHERE email='$email';";
+				    $go_update = mysqli_query($db, $query);
+
+	               if($go_update)
+	               {
+	                   $new_password = "Twoje nowe hasło to : $new_password";
+	                   array_push($errors, $new_password);
+
+	               }
+				}
+	            else
+	            {
+					array_push($errors, "Nie istnieje konto z podanym adresem e-mail!");
+				}
 			}
 		}
-	}
 ?>
 <!DOCTYPE html>
 <html>

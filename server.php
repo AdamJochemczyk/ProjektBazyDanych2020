@@ -221,7 +221,7 @@ if(isset($_POST['sprzedajbtn'], $_POST['kwotasprzedazy'], $_POST['typ'], $_POST[
 			{
 				//sprzedaz przed terminem
 				//dodaj kwote sprzedazy (tu kara za przedterminowe) 
-				$query2="UPDATE inwestycjeuzytkownik SET kwotaSprzedazy=$kosztinwestycji*0.9 WHERE ID_INW='$nrinw' AND idUzytkownik='$idUzytkownik';";
+				$query2="UPDATE inwestycjeuzytkownik SET DATA_Z=current_timestamp(), kwotaSprzedazy=$kosztinwestycji*0.9 WHERE ID_INW='$nrinw' AND idUzytkownik='$idUzytkownik';";
 				$db->query($query2);
 
 				//kwota dodaje sie do portfela										
