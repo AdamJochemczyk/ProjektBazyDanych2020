@@ -111,9 +111,9 @@ else
     <?php
     $errors = array();
       if (isset($_POST['zasil'])) {
-        $doladowanie=mysqli_real_escape_string($conn, $_POST['kwotazasilenia']);
-          if (empty($doladowanie)||($doladowanie==0)) { $doladowanie=0; }
-          if (count($errors) == 0) {
+          $doladowanie=mysqli_real_escape_string($conn, $_POST['kwotazasilenia']);
+          if (empty($doladowanie)||($doladowanie==0) || $doladowanie<0) { $doladowanie=0; }
+          if (count($errors) == 0 && $doladowanie>0) {
       			$zasil = "UPDATE uzytkownik SET kwota = $posiadanakwota+$doladowanie WHERE  email='$mail';";
       			$conn->query($zasil);
             header("Refresh:0");

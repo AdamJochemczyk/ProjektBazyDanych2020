@@ -94,9 +94,7 @@ $conn = mysqli_connect(
 		$Result = $Connection->query($Query);
         echo "<center><h1>Waluty</h1></center>";
 		echo "<table class='table table-bordered shadow-lg>";
-		echo "<tr><th>Identyfikator</th><th>Nazwa Inwestycji</th>
-        <th>Koszt inwestycji</th>
-        </tr>";
+		echo "<tr><th>Identyfikator</th><th>Nazwa Inwestycji</th><th>Koszt inwestycji</th></tr>";
 		if ($Result->num_rows > 0)
 		{
 			while ($Row = $Result->fetch_array())

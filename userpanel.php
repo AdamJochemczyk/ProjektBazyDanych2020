@@ -76,10 +76,6 @@ else {
              <form method="post" action="userpanel.php">
              <?php include('errors.php'); ?>
               <div class="form-group">
-                <label for="exampleInputEmail1">Zmien adres email</label>
-                <input type="email" class="form-control" name="emailIdchange" aria-describedby="emailHelp" placeholder="Wprowadź nowy email">
-              </div>
-              <div class="form-group">
                 <label for="exampleInputPassword1">Zmień hasło</label>
                 <input type="password" class="form-control" name="passwordIdchange" id="passwordId" placeholder="Wprowadź nowe hasło">
                 <input type="checkbox" onclick="showPassword()"> Pokaż hasło

@@ -33,9 +33,11 @@
         if ($wiek>150) { array_push($errors, "Podany wiek troche nieprawdopodobny!");}
 		if (empty($kwota)||($kwota==0)) { $kwota=0; }
 
-
+		$sprawdzczywolnymail="SELECT email FROM uzytkownik WHERE email LIKE '$email';";
+		$result=mysqli_query($db, $sprawdzczywolnymail);
+		
 		// register user if there are no errors in the form
-		if (count($errors) == 0) {
+		if (count($errors) == 0 && mysqli_num_rows($result)==0 ) {
 			$password_hashed = md5($password);
 			$query = "INSERT INTO uzytkownik (email, haslo,id_roli,wiek,kwota,Imie,Nazwisko)
 					  VALUES('$email', '$password_hashed', '2','$wiek','$kwota','$imie','$nazwisko')";
@@ -75,8 +77,6 @@
 			$checkResult = mysqli_query($db,$roleCheck);
 			$row = mysqli_fetch_assoc($checkResult);
 
-
-
             $pobranieIDkwerenda = "SELECT idUzytkownik FROM uzytkownik WHERE email='$email'";
             $wyslaniekwerendy = mysqli_query($db,$pobranieIDkwerenda);
             $pobierzID = mysqli_fetch_assoc($wyslaniekwerendy);
@@ -104,7 +104,6 @@
 			}
 		}
 	}
-
 
 	//Admin
 	if (isset($_POST['admin_usr'])) {
@@ -139,12 +138,7 @@
 			}
 			mysqli_query($db, $query);
 			header('location: usrmgmnt.php');
-
-
-
-
 		}
-
 	}
 
 
@@ -176,17 +170,15 @@
 //Zmiana danych w userpanel
 if (isset($_POST['change_data'])) {
 	$email=$_SESSION['email'];
-	$emailch = mysqli_real_escape_string($db, $_POST['emailIdchange']);
 	$passwordch = mysqli_real_escape_string($db, $_POST['passwordIdchange']);
 	$namech = mysqli_real_escape_string($db, $_POST['nameIdch']);
 	$surnamech = mysqli_real_escape_string($db, $_POST['surnameIdch']);
-	if (empty($emailch)) { array_push($errors, "Email jest wymagany"); }
 	if (empty($passwordch)) { array_push($errors, "Hasło jest wymagane"); }
 	if (empty($namech)) { array_push($errors, "Imie jest wymagane"); }
 	if (empty($surnamech)) { array_push($errors, "Nazwisko jest wymagane"); }
 	if (count($errors) == 0) {
 		$password_hashed = md5($passwordch);
-		$query = "UPDATE uzytkownik SET email='$emailch', haslo='$password_hashed', Imie='$namech', Nazwisko='$surnamech' WHERE email='$email';";
+		$query = "UPDATE uzytkownik SET haslo='$password_hashed', Imie='$namech', Nazwisko='$surnamech' WHERE email='$email';";
 		mysqli_query($db, $query);
 	}
 
@@ -269,6 +261,6 @@ if(isset($_POST['sprzedajbtn'], $_POST['kwotasprzedazy'], $_POST['typ'], $_POST[
 	else{
 		array_push($errors, "Kwota sprzadazy musi byc większa od 0");
 	}
-	//header('location: mojportfel.php');
+	header('location: mojportfel.php');
 }
 ?>

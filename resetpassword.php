@@ -19,13 +19,11 @@ if (isset($_POST['reset_password']))
                 $new_password_hash = md5($new_password);
 
                 $query = "UPDATE uzytkownik SET haslo='$new_password_hash' WHERE email='$email';";
-			    $go_update = mysqli_query($db, $query);
+			          $go_update = mysqli_query($db, $query);
 
                if($go_update)
                {
                    $new_password = "Twoje hasło : "+ (string)$new_password;
-                   //$comunicate = "Twoje nowe hasło to : "+$new_password+". Możesz się teraz zalogować z nowym hasłem!";
-                  // array_push($errors, $new_password);
                 echo $new_password;
                }
 			}
