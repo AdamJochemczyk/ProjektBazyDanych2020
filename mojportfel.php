@@ -152,7 +152,7 @@ else
               echo "<td>" . $row['kwotaZakupu'] ." zł</td>";
               echo "<td>". $row['DATA_R'] ."</td>";
               echo "<td>". $row['DATA_Z'] ."</td>";
-              if($curdate<$row['DATA_Z'] && $row['id_typ']==1 || $row['id_typ']==5)
+              if($curdate<$row['DATA_Z'] && ($row['id_typ']==1 || $row['id_typ']==5))
               {
               echo "<td><form action='server.php' method='POST'>";
               echo "<input type='hidden' name='id_inw' value=".$row['ID_INW'].">";
@@ -160,7 +160,7 @@ else
               echo "<input type='hidden' name='typ' value=".$row['id_typ']."><input type='hidden' name='kwotasprzedazy' value='1'>";
               echo "<button type='submit' name='sprzedajbtn' class='btn btn-dark btn-lg' value=".$row['nazwa'].">Zerwij umowe</button></form></td></tr>";
               }
-              else if($row['DATA_Z']>$curdate && $row['id_typ']==1 || $row['id_typ']==5)
+              else if($curdate>$row['DATA_Z'] && ($row['id_typ']==1 || $row['id_typ']==5))
               {
                 echo "<td><form action='server.php' method='POST'>";
                 echo "<input type='hidden' name='id_inw' value=".$row['ID_INW'].">";

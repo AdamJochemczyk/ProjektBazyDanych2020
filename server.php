@@ -229,13 +229,20 @@ if(isset($_POST['sprzedajbtn'], $_POST['kwotasprzedazy'], $_POST['typ'], $_POST[
 				$db->query($query3);
 
 			}
-			else{ //sprzedaz po terminie naliczane odsetki 3%
-				//dodaj kwote sprzedazy (odsetki) 
-				$query2="UPDATE inwestycjeuzytkownik SET kwotaSprzedazy=$kosztinwestycji*1.03 WHERE ID_INW='$nrinw' AND idUzytkownik='$idUzytkownik';";
+			else{ //sprzedaz po terminie naliczane odsetki
+				//pobierz %
+				$jakiprocent="SELECT Procent FROM inwestycje, inwestycjeuzytkownik
+				WHERE inwestycje.idInwestycje=inwestycjeuzytkownik.idInwestycje AND inwestycjeuzytkownik.ID_INW=$nrinw;";
+        		$result=$db->query($jakiprocent);
+        		$row=$result->fetch_assoc();
+        		$procent=1.00+$row['Procent']/100;
+
+				//dodaj kwote sprzedazy (odsetki)
+				$query2="UPDATE inwestycjeuzytkownik SET kwotaSprzedazy=$kosztinwestycji*$procent WHERE ID_INW='$nrinw' AND idUzytkownik='$idUzytkownik';";
 				$db->query($query2);
 
 				//kwota dodaje sie do portfela										
-				$query3="UPDATE uzytkownik SET kwota=kwota+($kosztinwestycji*1.03) WHERE email='$email';";
+				$query3="UPDATE uzytkownik SET kwota=kwota+($kosztinwestycji*$procent) WHERE email='$email';";
 				$db->query($query3);
 			}
 			//aktywo wraca na rynek

@@ -93,7 +93,17 @@ else
   <input type="date" name="startdata" class='form-control'>
     a:
   <input type="date" name="enddata" class='form-control'>
-  <input type="submit" class="btn btn-dark btn-lg" value="Generuj raport">
+  Z inwestycji:
+  <select name="typinw" class="form-control">
+          <option value=""></option>
+          <option value="1">Lokaty</option>
+          <option value="5">Obligacje</option>
+          <option value="6">Akcje</option>
+          <option value="3">Surowce</option>
+          <option value="4">Waluty</option>
+          <option value="2">Nieruchomosci</option>
+  <select>
+  <input type="submit" class="btn btn-dark btn-lg form-control mt-3" value="Generuj raport">
   </form>
   </div>
   <div class="col-lr-2 ml-5 pl-5">
